@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 義大利北義經典與嘉年華 13日家庭漫遊手冊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Markdown Parser for AI responses -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+        
+        /* Themes */
+        .theme-venice { background-color: #e0f2fe; border-left: 5px solid #0ea5e9; }
+        .theme-florence { background-color: #ffedd5; border-left: 5px solid #f97316; }
+        .theme-bologna { background-color: #fee2e2; border-left: 5px solid #ef4444; }
+        .theme-milan { background-color: #f3e8ff; border-left: 5px solid #a855f7; }
+        
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.25rem;
+        }
+        .tag-food { background-color: #dcfce7; color: #166534; }
+        .tag-spot { background-color: #dbeafe; color: #1e40af; }
+        .tag-dark { background-color: #374151; color: #f3f4f6; }
+        .tag-transport { background-color: #fef9c3; color: #854d0e; }
+        
+        .time-col {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #4b5563;
+            min-width: 50px;
+            display: inline-block;
+        }
+
+        /* Edit Mode Styles */
+        .editable-input {
+            width: 100%;
+            border: 1px dashed #cbd5e1;
+            padding: 2px 4px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.2s;
+        }
+        .editable-input:focus {
+            background: white;
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        .edit-controls {
+            display: none;
+        }
+        body.editing .edit-controls {
+            display: flex;
+        }
+        body.editing .view-only {
+            display: none;
+        }
+        /* Map Button Styles */
+        .map-btn {
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            color: #ef4444; /* red-500 */
+            margin-left: 0.5rem;
+        }
+        .map-btn:hover {
+            opacity: 1;
+        }
+        .transport-map-btn {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.75rem;
+            background-color: #eff6ff;
+            color: #2563eb;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #bfdbfe;
+            margin-left: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .transport-map-btn:hover {
+            background-color: #dbeafe;
+            transform: translateY(-1px);
+        }
+
+        /* Tab Navigation Styles */
+        .nav-tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.3s;
+        }
+        .nav-tab.active {
+            border-bottom-color: #2563eb;
+            color: #2563eb;
+            font-weight: 700;
+        }
+        .nav-tab:hover:not(.active) {
+            color: #374151;
+            background-color: #f9fafb;
+        }
+        
+        /* Chat Widget Styles */
+        #chat-widget {
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+        }
+        .chat-message {
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { 
+                background-color: white !important; 
+                -webkit-print-color-adjust: exact !important; 
+                print-color-adjust: exact !important;
+            }
+            .page-break { page-break-before: always; }
+            .shadow-xl { box-shadow: none !important; }
+            .theme-venice, .theme-florence, .theme-bologna, .theme-milan {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .hero-bg {
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1520175480921-4edfa2983e0f?q=80&w=2067&auto=format&fit=crop') !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            /* Hide edit interface when printing */
+            .edit-controls { display: none !important; }
+            .editable-input { 
+                border: none !important; 
+                background: transparent !important;
+                padding: 0 !important;
+            }
+            /* Hide map buttons in print */
+            .map-btn, .transport-map-btn { display: none !important; }
+            
+            /* Print Layout Tweaks */
+            .nav-tabs-container { display: none !important; } /* Hide tabs in print, just show content */
+            #view-itinerary, #view-luggage { display: block !important; } /* Force show all content when printing */
+            .tab-header-print { display: block !important; margin-top: 2rem; border-bottom: 2px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;}
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1520175480921-4edfa2983e0f?q=80&w=2067&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .tab-header-print { display: none; }
+    </style>
+</head>
+<body class="antialiased relative">
+
+    <!-- Floating Buttons -->
+    <div class="fixed bottom-8 right-8 z-50 no-print flex flex-col gap-3 items-end">
+        <button id="edit-toggle-btn" onclick="toggleEditMode()" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2 transform hover:scale-105">
+            <i class="fas fa-edit"></i> <span id="edit-btn-text">編輯內容</span>
+        </button>
+        <button onclick="toggleChat()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2 transform hover:scale-105">
+            <i class="fas fa-sparkles text-yellow-300"></i> Gemini 隨身導遊
+        </button>
+        <button id="print-btn" onclick="handlePrint()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2">
+            <i class="fas fa-print"></i> 列印 / 存成 PDF
+        </button>
+    </div>
+
+    <!-- Gemini Chat Widget -->
+    <div id="chat-widget" class="fixed bottom-24 right-8 w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col hidden no-print border border-gray-200 overflow-hidden transform origin-bottom-right transition-all duration-300 scale-95 opacity-0">
+        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 flex justify-between items-center text-white">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-robot text-2xl"></i>
+                <div>
+                    <h3 class="font-bold">Gemini 義大利導遊</h3>
+                    <p class="text-xs text-purple-200">已同步您目前的自訂行程</p>
+                </div>
+            </div>
+            <button onclick="toggleChat()" class="hover:bg-white/20 rounded-full p-2 transition">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+            <div class="chat-message flex gap-3">
+                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-sparkles text-purple-600 text-xs"></i>
+                </div>
+                <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[85%] border border-gray-100">
+                    <p>Ciao! 我是您的 Gemini 隨身導遊 ✨</p>
+                    <p class="mt-2">我會根據您編輯的行程來回答問題。您可以隨時點擊右側的 <i class="fas fa-edit"></i> 按鈕來修改行程。</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 bg-white border-t border-gray-200">
+            <div class="flex gap-2 relative">
+                <input type="text" id="user-input" placeholder="輸入問題..." class="flex-1 bg-gray-100 border-0 rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:bg-white transition outline-none" onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()" class="bg-purple-600 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-purple-700 transition shadow-md">
+                    <i class="fas fa-paper-plane text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-4xl mx-auto bg-white shadow-xl min-h-screen flex flex-col" id="print-area">
+        
+        <!-- Cover Page -->
+        <div class="hero-bg h-[500px] flex flex-col justify-center items-center text-white text-center p-8 relative flex-shrink-0">
+            <div class="absolute top-0 left-0 w-full h-full bg-black opacity-20"></div>
+            <div class="relative z-10">
+                <h3 class="text-xl md:text-2xl font-light tracking-widest mb-2 uppercase">Italy Travel Guide</h3>
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">2026 義大利<br>經典與嘉年華之旅</h1>
+                <div class="w-24 h-1 bg-white mx-auto mb-6"></div>
+                <p class="text-lg md:text-xl font-medium mb-8">自訂行程版</p>
+                <div class="bg-white/20 backdrop-blur-sm p-6 rounded-lg border border-white/30 inline-block text-left">
+                    <p class="mb-2"><i class="fas fa-calendar-alt mr-2"></i> <strong>日期：</strong> 2026/02/12 - 02/24 (13天)</p>
+                    <p class="mb-2"><i class="fas fa-users mr-2"></i> <strong>成員：</strong> 爸爸、媽媽、哥哥、弟弟</p>
+                    <p><i class="fas fa-map-marker-alt mr-2"></i> <strong>城市：</strong> 米蘭 ➔ 威尼斯 ➔ 佛羅倫斯 ➔ 波隆那 ➔ 米蘭</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation (Screen Only) -->
+        <div class="bg-white border-b border-gray-200 nav-tabs-container no-print sticky top-0 z-40 shadow-sm">
+            <div class="flex justify-center">
+                <div class="nav-tab active" onclick="switchTab('itinerary')" id="tab-itinerary">
+                    <i class="fas fa-map-marked-alt mr-2"></i> 行程與交通
+                </div>
+                <div class="nav-tab" onclick="switchTab('luggage')" id="tab-luggage">
+                    <i class="fas fa-suitcase-rolling mr-2"></i> 行李檢查清單
+                </div>
+            </div>
+        </div>
+
+        <!-- View: Itinerary -->
+        <div id="view-itinerary" class="flex-1">
+            <!-- Section 2: Transport -->
+            <div class="p-8 md:p-12 border-b border-gray-200 bg-gray-50">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-red-600 pl-3">🚄 交通攻略表</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden">
+                        <thead class="bg-gray-800 text-white">
+                            <tr>
+                                <th class="py-3 px-4 text-left">日期</th>
+                                <th class="py-3 px-4 text-left">路線</th>
+                                <th class="py-3 px-4 text-left">建議班次</th>
+                                <th class="py-3 px-4 text-left">交通工具</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm" id="transport-body">
+                            <!-- Transport rows generated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Section 3: Itinerary -->
+            <div class="p-8 md:p-12">
+                <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center uppercase tracking-widest">Daily Itinerary • 每日行程</h2>
+                <div id="itinerary-container">
+                    <!-- Itinerary content will be injected here by JavaScript -->
+                </div>
+                
+                <div class="text-center mt-8 edit-controls">
+                    <button onclick="addNewCityBlock()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded border border-gray-300 flex items-center mx-auto gap-2">
+                        <i class="fas fa-plus-circle"></i> 新增城市區塊
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- View: Luggage Checklist -->
+        <div id="view-luggage" class="flex-1 hidden">
+            <div class="p-8 md:p-12 bg-white min-h-[500px]">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-green-600 pl-3 tab-header-print">🧳 行李檢查清單 (冬季義大利版)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="luggage-container">
+                    <!-- Luggage items injected by JS -->
+                </div>
+                <div class="mt-8 text-center edit-controls">
+                    <button onclick="addLuggageCategory()" class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-2 px-4 rounded border border-blue-300 inline-flex items-center gap-2">
+                        <i class="fas fa-folder-plus"></i> 新增分類
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Footer -->
+        <div class="bg-gray-800 text-gray-300 p-8 text-center text-sm page-break mt-auto">
+            <p class="mb-2"><i class="fas fa-exclamation-triangle text-yellow-500"></i> <strong>重要提醒：</strong> 扒手猖獗，請隨時注意財物安全。</p>
+            <p>© 2026 Italy Family Trip Guidebook</p>
+        </div>
+    </div>
+
+    <!-- DATA & LOGIC -->
+    <script>
+        // --- 1. Initial Data Structure ---
+        const defaultData = {
+            // Note: 'checklists' object removed/deprecated in favor of the new 'luggage' structure for the tab
+            luggage: [
+                {
+                    category: "必備證件與財物",
+                    items: ["護照 (有效期6個月以上)", "機票/火車票行程單 (紙本+電子)", "現金 (歐元) & 信用卡 (需開通海外提款)", "申根保險證明 (英文版)", "防盜腰包/掛繩"]
+                },
+                {
+                    category: "冬季衣物 (2月義大利: 0-10°C)",
+                    items: ["防風保暖大衣/羽絨衣", "發熱衣/褲 (3-4套)", "舒適防水健走鞋 (威尼斯可能有水患)", "圍巾、毛帽、手套", "羊毛襪 (多雙)", "輕便室內拖鞋 (歐洲飯店通常不提供)"]
+                },
+                {
+                    category: "電子產品",
+                    items: ["萬用轉接頭 (義大利 Type L/C)", "行動電源 (隨身攜帶)", "手機充電線/器", "網卡/Wi-Fi機", "相機/記憶卡"]
+                },
+                {
+                    category: "盥洗與醫藥",
+                    items: ["牙刷牙膏 (歐洲飯店不提供)", "保濕乳液/護唇膏 (氣候乾燥)", "個人常備藥品 (感冒/腸胃/止痛)", "OK繃/腳貼 (防磨腳)", "口罩/乾洗手"]
+                },
+                {
+                    category: "其他實用小物",
+                    items: ["摺疊雨傘/雨衣 (冬季多雨)", "購物袋 (超市不提供塑膠袋)", "暖暖包", "夾鏈袋 (收納小物/票根)", "保溫瓶"]
+                }
+            ],
+            transport: [
+                { date: "2/12", route: "機場 (MXP) ➔ 米蘭中央車站", time: "08:13 / 08:43", type: "Malpensa Express" },
+                { date: "2/12", route: "米蘭中央車站 ➔ 威尼斯", time: "10:35 / 11:35", type: "Frecciarossa / Italo", highlight: true },
+                { date: "2/15", route: "威尼斯 ➔ 佛羅倫斯", time: "11:00 左右", type: "Frecciarossa / Italo" },
+                { date: "2/19", route: "佛羅倫斯 ➔ 波隆那", time: "11:00 左右", type: "Frecciarossa / Italo" },
+                { date: "2/21", route: "波隆那 ➔ 米蘭中央車站", time: "10:30 左右", type: "Frecciarossa / Italo" },
+                { date: "2/23", route: "米蘭 ↔ Crema (來回)", time: "每小時一班", type: "Regionale (區間車)" },
+                { date: "2/24", route: "米蘭市區 ➔ 機場 (MXP)", time: "07:25 / 07:55", type: "Malpensa Express" }
+            ],
+            itinerary: [
+                {
+                    city: "VENEZIA • 威尼斯",
+                    subtitle: "嘉年華的華麗序幕 (Day 1-3)",
+                    image: "https://images.unsplash.com/photo-1514890547357-a9ee288728e0?q=80&w=2070&auto=format&fit=crop",
+                    theme: "theme-venice",
+                    colorClass: "text-blue-600",
+                    borderClass: "border-blue-500",
+                    days: [
+                        {
+                            title: "Day 1 | 2/12 (四) 抵達與嘉年華",
+                            icon: "fa-plane-arrival",
+                            stay: "住宿：威尼斯",
+                            activities: [
+                                { time: "06:50", content: "抵達米蘭 MXP 機場 (T1)。" },
+                                { time: "08:13", content: "搭乘 Malpensa Express 前往米蘭中央車站。" },
+                                { time: "10:35", content: "搭乘高鐵 (Frecciarossa/Italo) 前往威尼斯。" },
+                                { time: "13:05", content: "抵達威尼斯 S. Lucia 車站。購買水上巴士 72hr 通票。" },
+                                { time: "14:30", content: "辦理住宿 Check-in，稍作休息。" },
+                                { time: "16:00", content: "Rialto 橋散步，感受嘉年華序幕。" },
+                                { time: "18:00", content: "晚餐：體驗 Cicchetti 小食 + 白酒。" }
+                            ]
+                        },
+                        {
+                            title: "Day 2 | 2/13 (五) 威尼斯的心臟",
+                            icon: "fa-mask",
+                            stay: "",
+                            activities: [
+                                { time: "09:30", content: "聖馬可廣場欣賞 Coser 裝扮。" },
+                                { time: "10:30", content: "參觀聖馬可大教堂 (含黃金祭壇)。" },
+                                { time: "12:00", content: "享用午餐。" },
+                                { time: "14:00", content: "參觀總督宮與嘆息橋 (古監獄)。" },
+                                { time: "16:30", content: "搭乘 Gondola (貢多拉) 鳳尾船遊河。" },
+                                { time: "18:00", content: "自由活動 / 享用晚餐。" }
+                            ]
+                        },
+                        {
+                            title: "Day 3 | 2/14 (六) 彩色島 & 情人節",
+                            icon: "fa-palette",
+                            stay: "",
+                            activities: [
+                                { time: "09:00", content: "搭船前往外島 (12號線)。" },
+                                { time: "10:00", content: "抵達 Murano (玻璃島) 參觀。" },
+                                { time: "11:30", content: "抵達 Burano (彩色島) 拍照。" },
+                                { time: "13:00", content: "午餐：Burano 必吃墨魚麵。" },
+                                { time: "15:30", content: "搭船返回威尼斯本島。" },
+                                { time: "16:30", content: "探訪沉船書店。" },
+                                { time: "19:00", content: "晚餐：嘉年華情人節大餐 (務必預訂)。" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    city: "FIRENZE • 佛羅倫斯",
+                    subtitle: "文藝復興與托斯卡尼艷陽 (Day 4-7)",
+                    image: "https://images.unsplash.com/photo-1534239695462-6585749d3469?q=80&w=2070&auto=format&fit=crop",
+                    theme: "theme-florence",
+                    colorClass: "text-orange-600",
+                    borderClass: "border-orange-500",
+                    days: [
+                        {
+                            title: "Day 4 | 2/15 (日) 文藝復興起點",
+                            icon: "fa-train",
+                            stay: "住宿：佛羅倫斯",
+                            activities: [
+                                { time: "09:00", content: "早起逛 Rialto 魚市場。" },
+                                { time: "11:00", content: "搭乘高鐵前往佛羅倫斯。" },
+                                { time: "13:15", content: "抵達佛羅倫斯 SMN 車站。" },
+                                { time: "15:00", content: "市區漫步：百花大教堂(外觀) ➔ 領主廣場 ➔ 老橋。" },
+                                { time: "17:00", content: "搭公車上米開朗基羅廣場看夕陽。" },
+                                { time: "19:30", content: "晚餐：挑戰一公斤大牛排 (Bistecca)。" }
+                            ]
+                        },
+                        {
+                            title: "Day 5 | 2/16 (一) 大衛像與圓頂",
+                            icon: "fa-user-graduate",
+                            stay: "",
+                            activities: [
+                                { time: "09:00", content: "學院美術館看大衛像 (需預約)。" },
+                                { time: "12:00", content: "中央市場二樓美食街午餐 (牛肚包)。" },
+                                { time: "14:00", content: "聖母百花大教堂登頂 (兄弟) / 洗禮堂 (父母)。" },
+                                { time: "16:30", content: "參觀麥地奇禮拜堂。" },
+                                { time: "18:30", content: "自由活動 / 晚餐。" }
+                            ]
+                        },
+                        {
+                            title: "Day 6 | 2/17 (二) 托斯卡尼烹飪酒莊",
+                            icon: "fa-wine-glass-alt",
+                            stay: "",
+                            activities: [
+                                { time: "09:00", content: "集合出發參加 Cooking Class Tour。" },
+                                { time: "10:30", content: "抵達 Chianti 農莊，開始烹飪課程。" },
+                                { time: "13:00", content: "享用自己做的午餐。" },
+                                { time: "14:30", content: "參觀葡萄園與酒窖品酒。" },
+                                { time: "17:00", content: "返回佛羅倫斯市區。" }
+                            ]
+                        },
+                        {
+                            title: "Day 7 | 2/18 (三) 烏菲茲與河岸",
+                            icon: "fa-image",
+                            stay: "",
+                            activities: [
+                                { time: "09:00", content: "參觀烏菲茲美術館 (維納斯的誕生)。" },
+                                { time: "13:00", content: "午餐後走過老橋。" },
+                                { time: "14:30", content: "Oltrarno區漫步 (碧提宮花園/工匠店)。" },
+                                { time: "17:00", content: "參觀聖十字聖殿 (米開朗基羅之墓)。" },
+                                { time: "19:00", content: "晚餐。" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    city: "BOLOGNA • 波隆那",
+                    subtitle: "胖子之都與黑暗歷史 (Day 8-9)",
+                    image: "https://images.unsplash.com/photo-1627833680456-294e671f1c27?q=80&w=2070&auto=format&fit=crop",
+                    theme: "theme-bologna",
+                    colorClass: "text-red-600",
+                    borderClass: "border-red-500",
+                    days: [
+                        {
+                            title: "Day 8 | 2/19 (四) 美食之都",
+                            icon: "fa-utensils",
+                            stay: "住宿：波隆那",
+                            activities: [
+                                { time: "09:30", content: "參觀佛羅倫斯 SMN 百年藥妝店。" },
+                                { time: "11:00", content: "搭高鐵前往波隆那 (車程40分)。" },
+                                { time: "13:00", content: "抵達並 Check-in。" },
+                                { time: "14:30", content: "馬喬雷廣場漫步。" },
+                                { time: "15:30", content: "參觀解剖劇場 (木造古老解剖室)。" },
+                                { time: "18:00", content: "晚餐：必吃 Tagliatelle al Ragù。" }
+                            ]
+                        },
+                        {
+                            title: "Day 9 | 2/20 (五) 拱廊朝聖",
+                            icon: "fa-archway",
+                            stay: "",
+                            activities: [
+                                { time: "10:00", content: "Quadrilatero 市場試吃火腿起司。" },
+                                { time: "12:00", content: "市場午餐 (Tortellini)。" },
+                                { time: "14:00", content: "搭乘小火車前往聖路加聖母朝聖地。" },
+                                { time: "17:00", content: "參觀七教堂建築群。" },
+                                { time: "19:00", content: "晚餐。" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    city: "MILANO • 米蘭",
+                    subtitle: "時尚、藝術與電影小鎮 (Day 10-13)",
+                    image: "https://images.unsplash.com/photo-1513581166391-887a96ddeafd?q=80&w=2070&auto=format&fit=crop",
+                    theme: "theme-milan",
+                    colorClass: "text-purple-600",
+                    borderClass: "border-purple-500",
+                    days: [
+                        {
+                            title: "Day 10 | 2/21 (六) 時尚之都",
+                            icon: "fa-shopping-bag",
+                            stay: "住宿：米蘭",
+                            activities: [
+                                { time: "10:30", content: "搭高鐵前往米蘭。" },
+                                { time: "12:00", content: "抵達米蘭，飯店寄放行李。" },
+                                { time: "14:30", content: "米蘭大教堂登頂 (搭電梯)。" },
+                                { time: "16:30", content: "參觀旁邊的人骨堂 (San Bernardino)。" },
+                                { time: "17:30", content: "逛艾曼紐二世迴廊。" },
+                                { time: "19:00", content: "運河區體驗 Aperitivo (Happy Hour)。" }
+                            ]
+                        },
+                        {
+                            title: "Day 11 | 2/22 (日) 最後的晚餐",
+                            icon: "fa-bible",
+                            stay: "",
+                            activities: [
+                                { time: "09:45", content: "參觀最後的晚餐 (達文西真跡)。" },
+                                { time: "11:30", content: "史福才城堡參觀。" },
+                                { time: "13:00", content: "Brera 區享用午餐。" },
+                                { time: "15:00", content: "森皮奧內公園散步。" },
+                                { time: "17:00", content: "米蘭市區自由購物。" }
+                            ]
+                        },
+                        {
+                            title: "Day 12 | 2/23 (一) Crema 電影小鎮",
+                            icon: "fa-film",
+                            stay: "",
+                            activities: [
+                                { time: "09:30", content: "搭區間車前往 Crema (克雷馬)。" },
+                                { time: "11:00", content: "抵達 Crema，開始小鎮漫遊。" },
+                                { time: "12:30", content: "午餐：特色 Tortelli Cremaschi。" },
+                                { time: "14:00", content: "尋找《以你的名字呼喚我》電影場景。" },
+                                { time: "16:30", content: "搭火車返回米蘭。" },
+                                { time: "19:00", content: "慶功晚餐：米蘭燉飯。" }
+                            ]
+                        },
+                        {
+                            title: "Day 13 | 2/24 (二) 歸途",
+                            icon: "fa-plane-departure",
+                            stay: "",
+                            activities: [
+                                { time: "07:00", content: "飯店退房。" },
+                                { time: "07:25", content: "搭乘 Malpensa Express 前往機場。" },
+                                { time: "08:20", content: "抵達機場，預留時間辦理退稅。" },
+                                { time: "11:00", content: "飛機起飛，Ciao Italy!" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // --- 2. State Management ---
+        let appData = null;
+        let isEditing = false;
+
+        function initApp() {
+            // Load from local storage or use default
+            const savedData = localStorage.getItem('italyTripData_v2'); // Increment version for new schema
+            if (savedData) {
+                appData = JSON.parse(savedData);
+                // Simple migration if 'luggage' is missing from saved data
+                if(!appData.luggage) {
+                    appData.luggage = defaultData.luggage;
+                }
+            } else {
+                appData = JSON.parse(JSON.stringify(defaultData)); // Deep copy
+            }
+            
+            renderAll();
+        }
+
+        function saveData() {
+            localStorage.setItem('italyTripData_v2', JSON.stringify(appData));
+        }
+
+        function toggleEditMode() {
+            isEditing = !isEditing;
+            document.body.classList.toggle('editing', isEditing);
+            
+            const btnText = document.getElementById('edit-btn-text');
+            const btn = document.getElementById('edit-toggle-btn');
+            
+            if (isEditing) {
+                btnText.innerText = "完成編輯";
+                btn.classList.remove('bg-gray-700', 'hover:bg-gray-800');
+                btn.classList.add('bg-green-600', 'hover:bg-green-700');
+            } else {
+                btnText.innerText = "編輯內容";
+                btn.classList.add('bg-gray-700', 'hover:bg-gray-800');
+                btn.classList.remove('bg-green-600', 'hover:bg-green-700');
+            }
+            
+            renderAll();
+        }
+
+        // --- 3. View Switcher ---
+        function switchTab(tabId) {
+            // Update Tab UI
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+
+            // Toggle Views
+            if (tabId === 'itinerary') {
+                document.getElementById('view-itinerary').classList.remove('hidden');
+                document.getElementById('view-luggage').classList.add('hidden');
+            } else {
+                document.getElementById('view-itinerary').classList.add('hidden');
+                document.getElementById('view-luggage').classList.remove('hidden');
+            }
+        }
+
+        // --- 4. Rendering Logic ---
+
+        function renderAll() {
+            renderTransport();
+            renderItinerary();
+            renderLuggage();
+        }
+
+        function renderLuggage() {
+            const container = document.getElementById('luggage-container');
+            container.innerHTML = appData.luggage.map((cat, catIdx) => `
+                <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-100 group/cat relative">
+                    ${isEditing 
+                        ? `<div class="flex justify-between items-center mb-4">
+                             <input type="text" class="editable-input font-bold text-lg text-gray-700 flex-1" value="${cat.category}" onchange="updateLuggageCat(${catIdx}, this.value)">
+                             <button onclick="removeLuggageCat(${catIdx})" class="text-red-400 hover:text-red-600 p-1"><i class="fas fa-trash"></i></button>
+                           </div>`
+                        : `<h3 class="font-bold text-lg mb-4 text-gray-700 border-b border-gray-200 pb-2">${cat.category}</h3>`
+                    }
+                    
+                    <ul class="space-y-3">
+                        ${cat.items.map((item, itemIdx) => `
+                            <li class="flex items-center group/item">
+                                ${isEditing 
+                                    ? `<button onclick="removeLuggageItem(${catIdx}, ${itemIdx})" class="text-red-500 mr-2 hover:bg-red-100 rounded px-1"><i class="fas fa-times"></i></button>
+                                       <input type="text" class="editable-input flex-1" value="${item}" onchange="updateLuggageItem(${catIdx}, ${itemIdx}, this.value)">` 
+                                    : `<input type="checkbox" class="mr-3 h-5 w-5 text-green-600 rounded focus:ring-green-500"> 
+                                       <span class="text-gray-700">${item}</span>`
+                                }
+                            </li>
+                        `).join('')}
+                        ${isEditing ? `<li class="mt-2"><button onclick="addLuggageItem(${catIdx})" class="text-blue-600 text-sm hover:underline">+ 新增項目</button></li>` : ''}
+                    </ul>
+                </div>
+            `).join('');
+        }
+
+        // Helper to generate Google Maps Direction Link from Route String
+        function getTransportMapLink(route) {
+            const arrowRegex = /(?:➔|->|→|to|↔)/i;
+            if (arrowRegex.test(route)) {
+                const parts = route.split(arrowRegex);
+                if (parts.length >= 2) {
+                    const origin = encodeURIComponent(parts[0].trim() + ", Italy"); // Append Italy
+                    const dest = encodeURIComponent(parts[1].trim() + ", Italy"); // Append Italy
+                    // 導航連結: origin -> destination
+                    return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}&travelmode=transit`;
+                }
+            }
+            // Fallback to simple search if no clear origin/dest
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(route + ", Italy")}`;
+        }
+
+        // Helper to generate Google Maps Search/Dir Link for Activity
+        function getActivityMapLink(city, content) {
+            // 1. Filter out generic activities that don't have a specific location
+            const genericKeywords = ["自由活動", "午餐", "晚餐", "住宿", "退房", "集合", "返回", "抵達", "辦理", "休息"];
+            if (genericKeywords.some(keyword => content.includes(keyword))) {
+                return null; // Return null to indicate no link should be generated
+            }
+
+            // 2. Clean up the content to remove common verbs and punctuation for better search
+            let queryTerm = content
+                .replace(/^(參觀|前往|搭乘|探訪|抵達|辦理|享受|挑戰|集合|返回|尋找|逛|早起逛|搭船前往|搭)/g, '') // Remove verbs
+                .replace(/[。，、]/g, ' ') // Remove punctuation
+                .trim();
+            
+            // 3. Extract potential POI name (take first part before parentheses if complex)
+            // E.g. "聖馬可大教堂 (含黃金祭壇)" -> "聖馬可大教堂"
+            const simpleTerm = queryTerm.split('(')[0].trim();
+            if(simpleTerm.length > 1) queryTerm = simpleTerm; // Use simpler term if valid
+
+            // 4. Construct query with City and Country explicitly
+            // "聖馬可大教堂, Venice, Italy" - This forces Google Maps to look in Italy
+            const query = encodeURIComponent(`${queryTerm}, ${city}, Italy`);
+            
+            // Use 'dir' with destination so user can navigate from where they are
+            return `https://www.google.com/maps/dir/?api=1&destination=${query}`;
+        }
+
+        function renderTransport() {
+            const tbody = document.getElementById('transport-body');
+            tbody.innerHTML = appData.transport.map((row, index) => `
+                <tr class="border-b hover:bg-gray-50 ${row.highlight ? 'bg-yellow-50' : ''}">
+                    <td class="py-3 px-4">
+                        ${isEditing 
+                            ? `<input type="text" class="editable-input w-20" value="${row.date}" onchange="updateTransport(${index}, 'date', this.value)">` 
+                            : `<span class="${row.highlight ? 'font-bold text-red-600' : ''}">${row.date}</span>`
+                        }
+                    </td>
+                    <td class="py-3 px-4">
+                        <div class="flex items-center">
+                            ${isEditing 
+                                ? `<input type="text" class="editable-input" value="${row.route}" onchange="updateTransport(${index}, 'route', this.value)">` 
+                                : `<span class="${row.highlight ? 'font-semibold' : ''}">${row.route}</span>
+                                   <a href="${getTransportMapLink(row.route)}" target="_blank" class="transport-map-btn no-print" title="查看路線">
+                                     <i class="fas fa-map-marked-alt mr-1"></i> 路線
+                                   </a>`
+                            }
+                        </div>
+                    </td>
+                    <td class="py-3 px-4">
+                        ${isEditing 
+                            ? `<input type="text" class="editable-input" value="${row.time}" onchange="updateTransport(${index}, 'time', this.value)">` 
+                            : `<span class="${row.highlight ? 'font-bold' : ''}">${row.time}</span>`
+                        }
+                    </td>
+                    <td class="py-3 px-4 flex items-center">
+                         ${isEditing 
+                            ? `<input type="text" class="editable-input flex-1 mr-2" value="${row.type}" onchange="updateTransport(${index}, 'type', this.value)">
+                               <button onclick="removeTransport(${index})" class="text-red-500 hover:bg-red-100 rounded px-1"><i class="fas fa-trash"></i></button>` 
+                            : row.type
+                        }
+                    </td>
+                </tr>
+            `).join('') + (isEditing ? `<tr><td colspan="4" class="py-2 px-4"><button onclick="addTransport()" class="text-blue-600 text-sm hover:underline">+ 新增交通行程</button></td></tr>` : '');
+        }
+
+        function renderItinerary() {
+            const container = document.getElementById('itinerary-container');
+            container.innerHTML = appData.itinerary.map((block, blockIndex) => {
+                // Extract English City Name for map context if available, otherwise use whole string
+                // "VENEZIA • 威尼斯" -> "VENEZIA"
+                const cityName = block.city.split('•')[0]?.trim() || block.city;
+
+                return `
+                <div class="mb-12 group/block">
+                    <!-- Block Header -->
+                    <div class="flex items-center mb-4 relative">
+                         ${isEditing ? `<button onclick="removeCityBlock(${blockIndex})" class="absolute -left-10 top-2 text-red-500 hover:bg-red-100 p-2 rounded-full"><i class="fas fa-trash-alt"></i></button>` : ''}
+                        
+                        <img src="${block.image}" alt="${block.city}" class="w-16 h-16 rounded-full object-cover mr-4 border-2 ${block.borderClass} shadow-md">
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold ${block.colorClass}">
+                                ${isEditing ? `<input type="text" class="editable-input" value="${block.city}" onchange="updateBlock(${blockIndex}, 'city', this.value)">` : block.city}
+                            </h3>
+                            <div class="text-sm text-gray-500">
+                                ${isEditing ? `<input type="text" class="editable-input" value="${block.subtitle}" onchange="updateBlock(${blockIndex}, 'subtitle', this.value)">` : block.subtitle}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Days Loop -->
+                    ${block.days.map((day, dayIndex) => `
+                        <div class="${block.theme} p-6 rounded-r-lg mb-4 shadow-sm relative group/day">
+                            
+                            ${isEditing ? `
+                                <div class="absolute right-2 top-2 flex gap-2">
+                                    <button onclick="removeDay(${blockIndex}, ${dayIndex})" class="text-red-400 hover:text-red-600 hover:bg-white/50 p-1 rounded"><i class="fas fa-times"></i></button>
+                                </div>
+                            ` : ''}
+
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-lg text-gray-800 flex items-center flex-1">
+                                    <i class="fas ${day.icon} mr-2"></i> 
+                                    ${isEditing ? `<input type="text" class="editable-input flex-1 font-bold" value="${day.title}" onchange="updateDay(${blockIndex}, ${dayIndex}, 'title', this.value)">` : day.title}
+                                </h4>
+                                ${day.stay ? `
+                                    <span class="text-xs font-mono bg-white px-2 py-1 rounded border ml-2 whitespace-nowrap">
+                                        ${isEditing ? `<input type="text" class="editable-input w-24" value="${day.stay}" onchange="updateDay(${blockIndex}, ${dayIndex}, 'stay', this.value)">` : day.stay}
+                                    </span>
+                                ` : ''}
+                            </div>
+                            
+                            <div class="text-sm text-gray-700 space-y-2 pl-6 border-l-2 border-opacity-30 ${block.borderClass} ml-1">
+                                ${day.activities.map((act, actIndex) => {
+                                    const mapLink = getActivityMapLink(cityName, act.content);
+                                    return `
+                                    <div class="flex items-start group/act">
+                                        <div class="time-col mr-2 pt-0.5">
+                                            ${isEditing ? `<input type="text" class="editable-input w-16 text-xs" value="${act.time}" onchange="updateActivity(${blockIndex}, ${dayIndex}, ${actIndex}, 'time', this.value)">` : act.time}
+                                        </div>
+                                        <div class="flex-1 flex items-start">
+                                             ${isEditing 
+                                                ? `<div class="flex gap-2 w-full">
+                                                    <input type="text" class="editable-input flex-1" value="${act.content}" onchange="updateActivity(${blockIndex}, ${dayIndex}, ${actIndex}, 'content', this.value)">
+                                                    <button onclick="removeActivity(${blockIndex}, ${dayIndex}, ${actIndex})" class="text-red-400 hover:text-red-600"><i class="fas fa-minus-circle"></i></button>
+                                                   </div>` 
+                                                : `<div class="flex-1">${convertTags(act.content)}</div>
+                                                   ${mapLink ? `<a href="${mapLink}" target="_blank" class="map-btn no-print" title="導航到此處">
+                                                     <i class="fas fa-map-marker-alt"></i>
+                                                   </a>` : ''}`
+                                                }
+                                        </div>
+                                    </div>
+                                `;}).join('')}
+                                
+                                ${isEditing ? `
+                                    <button onclick="addActivity(${blockIndex}, ${dayIndex})" class="text-blue-600 text-xs hover:underline mt-2 block">+ 新增活動</button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+
+                    ${isEditing ? `
+                        <button onclick="addDay(${blockIndex})" class="w-full py-2 border-2 border-dashed border-gray-300 text-gray-400 rounded hover:bg-gray-50 hover:text-gray-600 transition">+ 新增天數 (${block.city})</button>
+                    ` : ''}
+
+                </div>
+            `;}).join('');
+        }
+
+        // --- 4. Helpers ---
+        function convertTags(text) {
+            return text;
+        }
+
+        // --- 5. Action Handlers (Luggage) ---
+        function updateLuggageCat(idx, val) {
+            appData.luggage[idx].category = val;
+            saveData();
+        }
+        function removeLuggageCat(idx) {
+            if(confirm('確定刪除此分類？')) {
+                appData.luggage.splice(idx, 1);
+                saveData();
+                renderLuggage();
+            }
+        }
+        function addLuggageCategory() {
+            appData.luggage.push({category: "新分類", items: ["新項目"]});
+            saveData();
+            renderLuggage();
+        }
+        function updateLuggageItem(catIdx, itemIdx, val) {
+            appData.luggage[catIdx].items[itemIdx] = val;
+            saveData();
+        }
+        function removeLuggageItem(catIdx, itemIdx) {
+            appData.luggage[catIdx].items.splice(itemIdx, 1);
+            saveData();
+            renderLuggage();
+        }
+        function addLuggageItem(catIdx) {
+            appData.luggage[catIdx].items.push("新物品");
+            saveData();
+            renderLuggage();
+        }
+
+        // --- 6. Action Handlers (Transport) ---
+        function updateTransport(index, field, value) {
+            appData.transport[index][field] = value;
+            saveData();
+        }
+        function addTransport() {
+            appData.transport.push({ date: "", route: "新行程", time: "", type: "" });
+            renderTransport();
+            saveData();
+        }
+        function removeTransport(index) {
+            appData.transport.splice(index, 1);
+            renderTransport();
+            saveData();
+        }
+
+        // --- 7. Action Handlers (Itinerary) ---
+        function updateBlock(blockIdx, field, value) {
+            appData.itinerary[blockIdx][field] = value;
+            saveData();
+        }
+        function updateDay(blockIdx, dayIdx, field, value) {
+            appData.itinerary[blockIdx].days[dayIdx][field] = value;
+            saveData();
+        }
+        function updateActivity(blockIdx, dayIdx, actIdx, field, value) {
+            appData.itinerary[blockIdx].days[dayIdx].activities[actIdx][field] = value;
+            saveData();
+        }
+        
+        function addActivity(blockIdx, dayIdx) {
+            appData.itinerary[blockIdx].days[dayIdx].activities.push({ time: "00:00", content: "新活動" });
+            saveData();
+            renderItinerary();
+        }
+
+        function removeActivity(blockIdx, dayIdx, actIdx) {
+            appData.itinerary[blockIdx].days[dayIdx].activities.splice(actIdx, 1);
+            saveData();
+            renderItinerary();
+        }
+
+        // --- 8. Action Handlers (Day) ---
+        function addDay(blockIdx) {
+            appData.itinerary[blockIdx].days.push({
+                title: "Day X | 新的一天",
+                icon: "fa-map-marker-alt",
+                stay: "",
+                activities: []
+            });
+            saveData();
+            renderItinerary();
+        }
+
+        function removeDay(blockIdx, dayIdx) {
+            if(confirm("確定要刪除這一天嗎？")) {
+                appData.itinerary[blockIdx].days.splice(dayIdx, 1);
+                saveData();
+                renderItinerary();
+            }
+        }
+
+        // --- 9. Action Handlers (City Block) ---
+        function addNewCityBlock() {
+            appData.itinerary.push({
+                city: "新城市",
+                subtitle: "城市描述",
+                image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070&auto=format&fit=crop", // generic travel img
+                theme: "theme-florence", // default theme
+                colorClass: "text-gray-700",
+                borderClass: "border-gray-500",
+                days: []
+            });
+            saveData();
+            renderItinerary();
+        }
+
+        function removeCityBlock(index) {
+            if(confirm("確定要刪除整個城市區塊嗎？這將刪除該城市下的所有行程。")) {
+                appData.itinerary.splice(index, 1);
+                saveData();
+                renderItinerary();
+            }
+        }
+
+        // --- Print Logic ---
+        function handlePrint() {
+            showToast('🖨️ 列印視窗即將開啟...');
+            setTimeout(() => {
+                window.print();
+            }, 10);
+        }
+
+        function showToast(message) {
+            let toast = document.createElement('div');
+            toast.className = 'fixed top-8 left-1/2 transform -translate-x-1/2 bg-gray-800/90 backdrop-blur text-white px-6 py-4 rounded-xl shadow-2xl z-[9999] text-sm text-center transition-all duration-300 opacity-0 translate-y-[-20px] border border-gray-700 pointer-events-none';
+            toast.innerHTML = message;
+            document.body.appendChild(toast);
+            
+            // Force reflow
+            void toast.offsetWidth;
+            toast.classList.remove('opacity-0', 'translate-y-[-20px]');
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-20px]');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        // --- Chat Logic ---
+        const chatWidget = document.getElementById('chat-widget');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const apiKey = ""; 
+
+        function toggleChat() {
+            chatWidget.classList.toggle('hidden');
+            chatWidget.classList.toggle('scale-95');
+            chatWidget.classList.toggle('opacity-0');
+            
+            if (!chatWidget.classList.contains('hidden')) {
+                setTimeout(() => userInput.focus(), 100);
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+            const loadingId = addLoading();
+
+            try {
+                // Prepare context from current edited itinerary
+                const currentItineraryText = JSON.stringify(appData.itinerary);
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `You are an expert Italian travel guide. The user is planning a trip. 
+                                Here is their CURRENT ITINERARY JSON: ${currentItineraryText}.
+                                
+                                User question: ${message}
+                                
+                                Respond in Traditional Chinese (Taiwan). Be helpful and refer to their specific itinerary if relevant.`
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById(loadingId).remove();
+
+                if (data.error) {
+                    addMessage('抱歉，AI 目前忙碌中。', 'bot');
+                } else {
+                    const botResponse = data.candidates[0].content.parts[0].text;
+                    addMessage(botResponse, 'bot');
+                }
+            } catch (error) {
+                if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+                addMessage('連線錯誤。', 'bot');
+            }
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `chat-message flex gap-3 ${sender === 'user' ? 'flex-row-reverse' : ''}`;
+            const avatar = sender === 'user' 
+                ? `<div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-gray-500 text-xs"></i></div>`
+                : `<div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0"><i class="fas fa-sparkles text-purple-600 text-xs"></i></div>`;
+            const content = sender === 'user'
+                ? `<div class="bg-purple-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm max-w-[85%]">${text}</div>`
+                : `<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[85%] border border-gray-100 markdown-body">${marked.parse(text)}</div>`;
+            div.innerHTML = avatar + content;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addLoading() {
+            const id = 'loading-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'chat-message flex gap-3';
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0"><i class="fas fa-sparkles text-purple-600 text-xs"></i></div>
+                <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-500 border border-gray-100 flex gap-1 items-center h-10">
+                    <div class="typing-dot w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+                    <div class="typing-dot w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+                    <div class="typing-dot w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+                </div>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
+
+        // Initialize App
+        initApp();
+
+    </script>
+</body>
+</html>
