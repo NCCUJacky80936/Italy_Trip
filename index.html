@@ -7,8 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- Markdown Parser for AI responses -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <style>
         body {
@@ -115,28 +113,6 @@
             color: #374151;
             background-color: #f9fafb;
         }
-        
-        /* Chat Widget Styles */
-        #chat-widget {
-            transition: all 0.3s ease-in-out;
-            z-index: 1000;
-        }
-        .chat-message {
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .typing-dot {
-            animation: typing 1.4s infinite ease-in-out both;
-        }
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
 
         @media print {
             .no-print { display: none !important; }
@@ -188,47 +164,9 @@
         <button id="edit-toggle-btn" onclick="toggleEditMode()" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2 transform hover:scale-105">
             <i class="fas fa-edit"></i> <span id="edit-btn-text">編輯內容</span>
         </button>
-        <button onclick="toggleChat()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2 transform hover:scale-105">
-            <i class="fas fa-sparkles text-yellow-300"></i> Gemini 隨身導遊
-        </button>
         <button id="print-btn" onclick="handlePrint()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2">
             <i class="fas fa-print"></i> 列印 / 存成 PDF
         </button>
-    </div>
-
-    <!-- Gemini Chat Widget -->
-    <div id="chat-widget" class="fixed bottom-24 right-8 w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col hidden no-print border border-gray-200 overflow-hidden transform origin-bottom-right transition-all duration-300 scale-95 opacity-0">
-        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 flex justify-between items-center text-white">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-robot text-2xl"></i>
-                <div>
-                    <h3 class="font-bold">Gemini 義大利導遊</h3>
-                    <p class="text-xs text-purple-200">已同步您目前的自訂行程</p>
-                </div>
-            </div>
-            <button onclick="toggleChat()" class="hover:bg-white/20 rounded-full p-2 transition">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
-            <div class="chat-message flex gap-3">
-                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-sparkles text-purple-600 text-xs"></i>
-                </div>
-                <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[85%] border border-gray-100">
-                    <p>Ciao! 我是您的 Gemini 隨身導遊 ✨</p>
-                    <p class="mt-2">我會根據您編輯的行程來回答問題。您可以隨時點擊右側的 <i class="fas fa-edit"></i> 按鈕來修改行程。</p>
-                </div>
-            </div>
-        </div>
-        <div class="p-4 bg-white border-t border-gray-200">
-            <div class="flex gap-2 relative">
-                <input type="text" id="user-input" placeholder="輸入問題..." class="flex-1 bg-gray-100 border-0 rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:bg-white transition outline-none" onkeypress="handleKeyPress(event)">
-                <button onclick="sendMessage()" class="bg-purple-600 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-purple-700 transition shadow-md">
-                    <i class="fas fa-paper-plane text-sm"></i>
-                </button>
-            </div>
-        </div>
     </div>
 
     <!-- Main Container -->
@@ -302,6 +240,7 @@
         <div id="view-luggage" class="flex-1 hidden">
             <div class="p-8 md:p-12 bg-white min-h-[500px]">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-green-600 pl-3 tab-header-print">🧳 行李檢查清單 (冬季義大利版)</h2>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="luggage-container">
                     <!-- Luggage items injected by JS -->
                 </div>
@@ -411,7 +350,7 @@
                 {
                     city: "FIRENZE • 佛羅倫斯",
                     subtitle: "文藝復興與托斯卡尼艷陽 (Day 4-7)",
-                    image: "https://images.unsplash.com/photo-1534239695462-6585749d3469?q=80&w=2070&auto=format&fit=crop",
+                    image: "https://images.unsplash.com/photo-1541363111435-5c1b7d867904?q=80&w=2070&auto=format&fit=crop",
                     theme: "theme-florence",
                     colorClass: "text-orange-600",
                     borderClass: "border-orange-500",
@@ -470,7 +409,8 @@
                 {
                     city: "BOLOGNA • 波隆那",
                     subtitle: "胖子之都與黑暗歷史 (Day 8-9)",
-                    image: "https://images.unsplash.com/photo-1627833680456-294e671f1c27?q=80&w=2070&auto=format&fit=crop",
+                    // Updated image for Bologna (Two Towers)
+                    image: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Santuario_Madonna_di_San_Luca.jpg",
                     theme: "theme-bologna",
                     colorClass: "text-red-600",
                     borderClass: "border-red-500",
@@ -958,7 +898,8 @@
 
         function showToast(message) {
             let toast = document.createElement('div');
-            toast.className = 'fixed top-8 left-1/2 transform -translate-x-1/2 bg-gray-800/90 backdrop-blur text-white px-6 py-4 rounded-xl shadow-2xl z-[9999] text-sm text-center transition-all duration-300 opacity-0 translate-y-[-20px] border border-gray-700 pointer-events-none';
+            // Added 'no-print' class to hide toast during printing
+            toast.className = 'fixed top-8 left-1/2 transform -translate-x-1/2 bg-gray-800/90 backdrop-blur text-white px-6 py-4 rounded-xl shadow-2xl z-[9999] text-sm text-center transition-all duration-300 opacity-0 translate-y-[-20px] border border-gray-700 pointer-events-none no-print';
             toast.innerHTML = message;
             document.body.appendChild(toast);
             
@@ -970,102 +911,6 @@
                 toast.classList.add('opacity-0', 'translate-y-[-20px]');
                 setTimeout(() => document.body.removeChild(toast), 300);
             }, 3000);
-        }
-
-        // --- Chat Logic ---
-        const chatWidget = document.getElementById('chat-widget');
-        const chatMessages = document.getElementById('chat-messages');
-        const userInput = document.getElementById('user-input');
-        const apiKey = ""; 
-
-        function toggleChat() {
-            chatWidget.classList.toggle('hidden');
-            chatWidget.classList.toggle('scale-95');
-            chatWidget.classList.toggle('opacity-0');
-            
-            if (!chatWidget.classList.contains('hidden')) {
-                setTimeout(() => userInput.focus(), 100);
-            }
-        }
-
-        function handleKeyPress(e) {
-            if (e.key === 'Enter') sendMessage();
-        }
-
-        async function sendMessage() {
-            const message = userInput.value.trim();
-            if (!message) return;
-
-            addMessage(message, 'user');
-            userInput.value = '';
-            const loadingId = addLoading();
-
-            try {
-                // Prepare context from current edited itinerary
-                const currentItineraryText = JSON.stringify(appData.itinerary);
-
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `You are an expert Italian travel guide. The user is planning a trip. 
-                                Here is their CURRENT ITINERARY JSON: ${currentItineraryText}.
-                                
-                                User question: ${message}
-                                
-                                Respond in Traditional Chinese (Taiwan). Be helpful and refer to their specific itinerary if relevant.`
-                            }]
-                        }]
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById(loadingId).remove();
-
-                if (data.error) {
-                    addMessage('抱歉，AI 目前忙碌中。', 'bot');
-                } else {
-                    const botResponse = data.candidates[0].content.parts[0].text;
-                    addMessage(botResponse, 'bot');
-                }
-            } catch (error) {
-                if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-                addMessage('連線錯誤。', 'bot');
-            }
-        }
-
-        function addMessage(text, sender) {
-            const div = document.createElement('div');
-            div.className = `chat-message flex gap-3 ${sender === 'user' ? 'flex-row-reverse' : ''}`;
-            const avatar = sender === 'user' 
-                ? `<div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-gray-500 text-xs"></i></div>`
-                : `<div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0"><i class="fas fa-sparkles text-purple-600 text-xs"></i></div>`;
-            const content = sender === 'user'
-                ? `<div class="bg-purple-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm max-w-[85%]">${text}</div>`
-                : `<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[85%] border border-gray-100 markdown-body">${marked.parse(text)}</div>`;
-            div.innerHTML = avatar + content;
-            chatMessages.appendChild(div);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function addLoading() {
-            const id = 'loading-' + Date.now();
-            const div = document.createElement('div');
-            div.id = id;
-            div.className = 'chat-message flex gap-3';
-            div.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0"><i class="fas fa-sparkles text-purple-600 text-xs"></i></div>
-                <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-500 border border-gray-100 flex gap-1 items-center h-10">
-                    <div class="typing-dot w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                    <div class="typing-dot w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                    <div class="typing-dot w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                </div>
-            `;
-            chatMessages.appendChild(div);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            return id;
         }
 
         // Initialize App
