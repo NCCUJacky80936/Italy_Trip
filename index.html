@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Markdown Parser for AI responses -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <style>
         body {
@@ -113,6 +115,28 @@
             color: #374151;
             background-color: #f9fafb;
         }
+        
+        /* Chat Widget Styles */
+        #chat-widget {
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+        }
+        .chat-message {
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
 
         @media print {
             .no-print { display: none !important; }
@@ -164,9 +188,47 @@
         <button id="edit-toggle-btn" onclick="toggleEditMode()" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2 transform hover:scale-105">
             <i class="fas fa-edit"></i> <span id="edit-btn-text">編輯內容</span>
         </button>
+        <button onclick="toggleChat()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2 transform hover:scale-105">
+            <i class="fas fa-sparkles text-yellow-300"></i> Gemini 隨身導遊
+        </button>
         <button id="print-btn" onclick="handlePrint()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2">
             <i class="fas fa-print"></i> 列印 / 存成 PDF
         </button>
+    </div>
+
+    <!-- Gemini Chat Widget -->
+    <div id="chat-widget" class="fixed bottom-24 right-8 w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col hidden no-print border border-gray-200 overflow-hidden transform origin-bottom-right transition-all duration-300 scale-95 opacity-0">
+        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 flex justify-between items-center text-white">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-robot text-2xl"></i>
+                <div>
+                    <h3 class="font-bold">Gemini 義大利導遊</h3>
+                    <p class="text-xs text-purple-200">已同步您目前的自訂行程</p>
+                </div>
+            </div>
+            <button onclick="toggleChat()" class="hover:bg-white/20 rounded-full p-2 transition">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+            <div class="chat-message flex gap-3">
+                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-sparkles text-purple-600 text-xs"></i>
+                </div>
+                <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[85%] border border-gray-100">
+                    <p>Ciao! 我是您的 Gemini 隨身導遊 ✨</p>
+                    <p class="mt-2">我會根據您編輯的行程來回答問題。您可以隨時點擊右側的 <i class="fas fa-edit"></i> 按鈕來修改行程。</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 bg-white border-t border-gray-200">
+            <div class="flex gap-2 relative">
+                <input type="text" id="user-input" placeholder="輸入問題..." class="flex-1 bg-gray-100 border-0 rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:bg-white transition outline-none" onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()" class="bg-purple-600 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-purple-700 transition shadow-md">
+                    <i class="fas fa-paper-plane text-sm"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Main Container -->
@@ -179,10 +241,11 @@
                 <h3 class="text-xl md:text-2xl font-light tracking-widest mb-2 uppercase">Italy Travel Guide</h3>
                 <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">2026 義大利<br>經典與嘉年華之旅</h1>
                 <div class="w-24 h-1 bg-white mx-auto mb-6"></div>
+                <p class="text-lg md:text-xl font-medium mb-8">老鳥效率版</p>
                 <div class="bg-white/20 backdrop-blur-sm p-6 rounded-lg border border-white/30 inline-block text-left">
                     <p class="mb-2"><i class="fas fa-calendar-alt mr-2"></i> <strong>日期：</strong> 2026/02/12 - 02/24 (13天)</p>
-                    <p class="mb-2"><i class="fas fa-users mr-2"></i> <strong>成員：</strong> 哥哥、弟弟</p>
-                    <p><i class="fas fa-map-marker-alt mr-2"></i> <strong>城市：</strong> 米蘭 ➔ 威尼斯 ➔ 佛羅倫斯 ➔ 波隆那 ➔ 米蘭</p>
+                    <p class="mb-2"><i class="fas fa-users mr-2"></i> <strong>成員：</strong> 爸爸、媽媽、哥哥、弟弟</p>
+                    <p><i class="fas fa-map-marker-alt mr-2"></i> <strong>城市：</strong> 米蘭 ➔ 威尼斯(Lido) ➔ 佛羅倫斯 ➔ 波隆那 ➔ 米蘭</p>
                 </div>
             </div>
         </div>
@@ -240,7 +303,6 @@
         <div id="view-luggage" class="flex-1 hidden">
             <div class="p-8 md:p-12 bg-white min-h-[500px]">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-green-600 pl-3 tab-header-print">🧳 行李檢查清單 (冬季義大利版)</h2>
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="luggage-container">
                     <!-- Luggage items injected by JS -->
                 </div>
@@ -288,10 +350,10 @@
             ],
             transport: [
                 { date: "2/12", route: "機場 (MXP) ➔ 米蘭中央車站", time: "08:13 / 08:43", type: "Malpensa Express" },
-                { date: "2/12", route: "米蘭中央車站 ➔ 威尼斯", time: "10:35 / 11:35", type: "Frecciarossa / Italo", highlight: true },
-                { date: "2/15", route: "威尼斯 ➔ 佛羅倫斯", time: "11:00 左右", type: "Frecciarossa / Italo" },
-                { date: "2/19", route: "佛羅倫斯 ➔ 波隆那", time: "11:00 左右", type: "Frecciarossa / Italo" },
-                { date: "2/21", route: "波隆那 ➔ 米蘭中央車站", time: "10:30 左右", type: "Frecciarossa / Italo" },
+                { date: "2/12", route: "米蘭中央車站 ➔ 威尼斯 (Venezia S.L.)", time: "12:35 / 15:03", type: "Frecciarossa", highlight: true },
+                { date: "2/15", route: "威尼斯 ➔ 佛羅倫斯 (Firenze SMN)", time: "11:05 / 13:20", type: "Frecciarossa / Italo" },
+                { date: "2/19", route: "佛羅倫斯 ➔ 波隆那 (Bologna Centrale)", time: "11:39 / 12:18", type: "Frecciarossa / Italo" },
+                { date: "2/21", route: "波隆那 ➔ 米蘭中央車站", time: "12:11 / 13:15", type: "Frecciarossa / Italo" },
                 { date: "2/23", route: "米蘭 ↔ Crema (來回)", time: "每小時一班", type: "Regionale (區間車)" },
                 { date: "2/24", route: "米蘭市區 ➔ 機場 (MXP)", time: "07:25 / 07:55", type: "Malpensa Express" }
             ],
@@ -305,42 +367,45 @@
                     borderClass: "border-blue-500",
                     days: [
                         {
-                            title: "Day 1 | 2/12 (四) 抵達與嘉年華",
+                            title: "Day 1 | 2/12 (四) 抵達 & 效率戰術",
                             icon: "fa-plane-arrival",
-                            stay: "住宿：威尼斯",
+                            stay: "宿：Via Biagio Zulian 8, Lido",
                             activities: [
                                 { time: "06:50", content: "抵達米蘭 MXP 機場 (T1)。" },
                                 { time: "08:13", content: "搭乘 Malpensa Express 前往米蘭中央車站。" },
-                                { time: "10:35", content: "搭乘高鐵 (Frecciarossa/Italo) 前往威尼斯。" },
-                                { time: "13:05", content: "抵達威尼斯 S. Lucia 車站。購買水上巴士 72hr 通票。" },
-                                { time: "14:30", content: "辦理住宿 Check-in，稍作休息。" },
-                                { time: "16:00", content: "Rialto 橋散步，感受嘉年華序幕。" },
-                                { time: "18:00", content: "晚餐：體驗 Cicchetti 小食 + 白酒。" }
+                                { time: "09:00", content: "在米蘭車站簡單逛逛，準備午餐上車。" },
+                                { time: "12:35", content: "搭乘高鐵前往威尼斯 (15:03 抵達)。" },
+                                { time: "15:03", content: "【老鳥戰術】抵達 S. Lucia 車站，直接將大行李寄放「車站寄物處」(1號月台旁)。" },
+                                { time: "15:30", content: "一身輕便直接開始逛 Cannaregio 區與 Rialto 橋 (把握日光)。" },
+                                { time: "17:30", content: "夕陽時分，享受威尼斯嘉年華氣氛。" },
+                                { time: "19:00", content: "在本島吃晚餐 (選擇較多)。" },
+                                { time: "21:00", content: "回車站領行李，搭 5.1/5.2 號船前往 Lido 島入住 (晚上搭船看夜景)。" }
                             ]
                         },
                         {
                             title: "Day 2 | 2/13 (五) 威尼斯的心臟",
                             icon: "fa-mask",
-                            stay: "",
+                            stay: "宿：Lido 島",
                             activities: [
-                                { time: "09:30", content: "聖馬可廣場欣賞 Coser 裝扮。" },
+                                { time: "09:00", content: "從 Lido 搭船前往聖馬可廣場。" },
+                                { time: "09:30", content: "欣賞嘉年華 Coser 裝扮。" },
                                 { time: "10:30", content: "參觀聖馬可大教堂 (含黃金祭壇)。" },
                                 { time: "12:00", content: "享用午餐。" },
                                 { time: "14:00", content: "參觀總督宮與嘆息橋 (古監獄)。" },
                                 { time: "16:30", content: "搭乘 Gondola (貢多拉) 鳳尾船遊河。" },
-                                { time: "18:00", content: "自由活動 / 享用晚餐。" }
+                                { time: "18:00", content: "自由活動 / 享用晚餐後搭船回 Lido。" }
                             ]
                         },
                         {
                             title: "Day 3 | 2/14 (六) 彩色島 & 情人節",
                             icon: "fa-palette",
-                            stay: "",
+                            stay: "宿：Lido 島",
                             activities: [
                                 { time: "09:00", content: "搭船前往外島 (12號線)。" },
                                 { time: "10:00", content: "抵達 Murano (玻璃島) 參觀。" },
                                 { time: "11:30", content: "抵達 Burano (彩色島) 拍照。" },
                                 { time: "13:00", content: "午餐：Burano 必吃墨魚麵。" },
-                                { time: "15:30", content: "搭船返回威尼斯本島。" },
+                                { time: "15:30", content: "搭船返回威尼斯本島/Lido。" },
                                 { time: "16:30", content: "探訪沉船書店。" },
                                 { time: "19:00", content: "晚餐：嘉年華情人節大餐 (務必預訂)。" }
                             ]
@@ -350,7 +415,7 @@
                 {
                     city: "FIRENZE • 佛羅倫斯",
                     subtitle: "文藝復興與托斯卡尼艷陽 (Day 4-7)",
-                    image: "https://images.unsplash.com/photo-1541363111435-5c1b7d867904?q=80&w=2070&auto=format&fit=crop",
+                    image: "https://images.unsplash.com/photo-1534239695462-6585749d3469?q=80&w=2070&auto=format&fit=crop",
                     theme: "theme-florence",
                     colorClass: "text-orange-600",
                     borderClass: "border-orange-500",
@@ -358,20 +423,21 @@
                         {
                             title: "Day 4 | 2/15 (日) 文藝復興起點",
                             icon: "fa-train",
-                            stay: "住宿：佛羅倫斯",
+                            stay: "宿：Viale Spartaco Lavagnini 2",
                             activities: [
-                                { time: "09:00", content: "早起逛 Rialto 魚市場。" },
-                                { time: "11:00", content: "搭乘高鐵前往佛羅倫斯。" },
-                                { time: "13:15", content: "抵達佛羅倫斯 SMN 車站。" },
-                                { time: "15:00", content: "市區漫步：百花大教堂(外觀) ➔ 領主廣場 ➔ 老橋。" },
-                                { time: "17:00", content: "搭公車上米開朗基羅廣場看夕陽。" },
+                                { time: "09:00", content: "Lido 退房，搭船去車站。" },
+                                { time: "11:05", content: "搭乘高鐵前往佛羅倫斯。" },
+                                { time: "13:20", content: "抵達佛羅倫斯 SMN 車站。" },
+                                { time: "13:40", content: "直接前往住宿點【先寄放行李】(不管房間好了沒)。" },
+                                { time: "14:15", content: "一身輕，直奔中央市場 (Mercato Centrale) 吃午餐。" },
+                                { time: "16:00", content: "市區漫步：百花大教堂 ➔ 領主廣場。" },
                                 { time: "19:30", content: "晚餐：挑戰一公斤大牛排 (Bistecca)。" }
                             ]
                         },
                         {
                             title: "Day 5 | 2/16 (一) 大衛像與圓頂",
                             icon: "fa-user-graduate",
-                            stay: "",
+                            stay: "宿：佛羅倫斯",
                             activities: [
                                 { time: "09:00", content: "學院美術館看大衛像 (需預約)。" },
                                 { time: "12:00", content: "中央市場二樓美食街午餐 (牛肚包)。" },
@@ -383,7 +449,7 @@
                         {
                             title: "Day 6 | 2/17 (二) 托斯卡尼烹飪酒莊",
                             icon: "fa-wine-glass-alt",
-                            stay: "",
+                            stay: "宿：佛羅倫斯",
                             activities: [
                                 { time: "09:00", content: "集合出發參加 Cooking Class Tour。" },
                                 { time: "10:30", content: "抵達 Chianti 農莊，開始烹飪課程。" },
@@ -395,12 +461,12 @@
                         {
                             title: "Day 7 | 2/18 (三) 烏菲茲與河岸",
                             icon: "fa-image",
-                            stay: "",
+                            stay: "宿：佛羅倫斯",
                             activities: [
                                 { time: "09:00", content: "參觀烏菲茲美術館 (維納斯的誕生)。" },
                                 { time: "13:00", content: "午餐後走過老橋。" },
                                 { time: "14:30", content: "Oltrarno區漫步 (碧提宮花園/工匠店)。" },
-                                { time: "17:00", content: "參觀聖十字聖殿 (米開朗基羅之墓)。" },
+                                { time: "17:00", content: "搭公車上米開朗基羅廣場看夕陽。" },
                                 { time: "19:00", content: "晚餐。" }
                             ]
                         }
@@ -409,8 +475,7 @@
                 {
                     city: "BOLOGNA • 波隆那",
                     subtitle: "胖子之都與黑暗歷史 (Day 8-9)",
-                    // Updated image for Bologna (Two Towers)
-                    image: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Santuario_Madonna_di_San_Luca.jpg",
+                    image: "https://images.unsplash.com/photo-1627833680456-294e671f1c27?q=80&w=2070&auto=format&fit=crop",
                     theme: "theme-bologna",
                     colorClass: "text-red-600",
                     borderClass: "border-red-500",
@@ -418,25 +483,26 @@
                         {
                             title: "Day 8 | 2/19 (四) 美食之都",
                             icon: "fa-utensils",
-                            stay: "住宿：波隆那",
+                            stay: "宿：Via Augusto Righi 8",
                             activities: [
-                                { time: "09:30", content: "參觀佛羅倫斯 SMN 百年藥妝店。" },
-                                { time: "11:00", content: "搭高鐵前往波隆那 (車程40分)。" },
-                                { time: "13:00", content: "抵達並 Check-in。" },
-                                { time: "14:30", content: "馬喬雷廣場漫步。" },
-                                { time: "15:30", content: "參觀解剖劇場 (木造古老解剖室)。" },
-                                { time: "18:00", content: "晚餐：必吃 Tagliatelle al Ragù。" }
+                                { time: "10:00", content: "佛羅倫斯退房。" },
+                                { time: "11:39", content: "搭高鐵前往波隆那。" },
+                                { time: "12:18", content: "抵達波隆那，走路10分到飯店【先寄放行李】。" },
+                                { time: "12:50", content: "立刻開吃！去吃波隆那肉醬麵 (Tagliatelle al Ragù)。" },
+                                { time: "15:00", content: "吃飽散步回飯店辦理正式入住/稍作休息。" },
+                                { time: "16:00", content: "馬喬雷廣場漫步與海神噴泉。" },
+                                { time: "18:30", content: "晚餐：在地推薦小館。" }
                             ]
                         },
                         {
                             title: "Day 9 | 2/20 (五) 拱廊朝聖",
                             icon: "fa-archway",
-                            stay: "",
+                            stay: "宿：波隆那",
                             activities: [
                                 { time: "10:00", content: "Quadrilatero 市場試吃火腿起司。" },
                                 { time: "12:00", content: "市場午餐 (Tortellini)。" },
                                 { time: "14:00", content: "搭乘小火車前往聖路加聖母朝聖地。" },
-                                { time: "17:00", content: "參觀七教堂建築群。" },
+                                { time: "17:00", content: "參觀七教堂建築群 / 解剖劇場。" },
                                 { time: "19:00", content: "晚餐。" }
                             ]
                         }
@@ -453,32 +519,34 @@
                         {
                             title: "Day 10 | 2/21 (六) 時尚之都",
                             icon: "fa-shopping-bag",
-                            stay: "住宿：米蘭",
+                            stay: "宿：Via F. Predabissi 6",
                             activities: [
-                                { time: "10:30", content: "搭高鐵前往米蘭。" },
-                                { time: "12:00", content: "抵達米蘭，飯店寄放行李。" },
-                                { time: "14:30", content: "米蘭大教堂登頂 (搭電梯)。" },
-                                { time: "16:30", content: "參觀旁邊的人骨堂 (San Bernardino)。" },
-                                { time: "17:30", content: "逛艾曼紐二世迴廊。" },
-                                { time: "19:00", content: "運河區體驗 Aperitivo (Happy Hour)。" }
+                                { time: "11:00", content: "波隆那退房，前往車站。" },
+                                { time: "12:11", content: "搭高鐵前往米蘭。" },
+                                { time: "13:15", content: "抵達米蘭中央車站。" },
+                                { time: "13:45", content: "搭地鐵去飯店【先寄放行李】。" },
+                                { time: "14:30", content: "一身輕搭地鐵直奔米蘭大教堂。" },
+                                { time: "15:00", content: "米蘭大教堂登頂 (搭電梯)。" },
+                                { time: "18:00", content: "逛艾曼紐二世迴廊 & 運河區 Happy Hour。" }
                             ]
                         },
                         {
-                            title: "Day 11 | 2/22 (日) 最後的晚餐",
-                            icon: "fa-bible",
-                            stay: "",
+                            title: "Day 11 | 2/22 (日) 藝術與替代方案",
+                            icon: "fa-paint-brush",
+                            stay: "宿：米蘭",
                             activities: [
-                                { time: "09:45", content: "參觀最後的晚餐 (達文西真跡)。" },
-                                { time: "11:30", content: "史福才城堡參觀。" },
+                                { time: "10:00", content: "【替代方案】參觀聖毛里齊奧教堂 (米蘭西斯汀禮拜堂)。" },
+                                { time: "11:30", content: "步行至史福才城堡參觀。" },
                                 { time: "13:00", content: "Brera 區享用午餐。" },
                                 { time: "15:00", content: "森皮奧內公園散步。" },
-                                { time: "17:00", content: "米蘭市區自由購物。" }
+                                { time: "16:30", content: "Starbucks Reserve Roastery 參觀 (全球最美星巴克)。" },
+                                { time: "18:30", content: "米蘭市區自由購物。" }
                             ]
                         },
                         {
                             title: "Day 12 | 2/23 (一) Crema 電影小鎮",
                             icon: "fa-film",
-                            stay: "",
+                            stay: "宿：米蘭",
                             activities: [
                                 { time: "09:30", content: "搭區間車前往 Crema (克雷馬)。" },
                                 { time: "11:00", content: "抵達 Crema，開始小鎮漫遊。" },
@@ -493,7 +561,7 @@
                             icon: "fa-plane-departure",
                             stay: "",
                             activities: [
-                                { time: "07:00", content: "飯店退房。" },
+                                { time: "07:00", content: "飯店退房 (11:00前)。" },
                                 { time: "07:25", content: "搭乘 Malpensa Express 前往機場。" },
                                 { time: "08:20", content: "抵達機場，預留時間辦理退稅。" },
                                 { time: "11:00", content: "飛機起飛，Ciao Italy!" }
@@ -620,7 +688,7 @@
         // Helper to generate Google Maps Search/Dir Link for Activity
         function getActivityMapLink(city, content) {
             // 1. Filter out generic activities that don't have a specific location
-            const genericKeywords = ["自由活動", "午餐", "晚餐", "住宿", "退房", "集合", "返回", "抵達", "辦理", "休息"];
+            const genericKeywords = ["自由活動", "午餐", "晚餐", "住宿", "退房", "集合", "返回", "抵達", "辦理", "休息", "寄放", "開吃"];
             if (genericKeywords.some(keyword => content.includes(keyword))) {
                 return null; // Return null to indicate no link should be generated
             }
@@ -629,6 +697,7 @@
             let queryTerm = content
                 .replace(/^(參觀|前往|搭乘|探訪|抵達|辦理|享受|挑戰|集合|返回|尋找|逛|早起逛|搭船前往|搭)/g, '') // Remove verbs
                 .replace(/[。，、]/g, ' ') // Remove punctuation
+                .replace(/【.*?】/g, '') // Remove tags in brackets
                 .trim();
             
             // 3. Extract potential POI name (take first part before parentheses if complex)
@@ -898,8 +967,7 @@
 
         function showToast(message) {
             let toast = document.createElement('div');
-            // Added 'no-print' class to hide toast during printing
-            toast.className = 'fixed top-8 left-1/2 transform -translate-x-1/2 bg-gray-800/90 backdrop-blur text-white px-6 py-4 rounded-xl shadow-2xl z-[9999] text-sm text-center transition-all duration-300 opacity-0 translate-y-[-20px] border border-gray-700 pointer-events-none no-print';
+            toast.className = 'fixed top-8 left-1/2 transform -translate-x-1/2 bg-gray-800/90 backdrop-blur text-white px-6 py-4 rounded-xl shadow-2xl z-[9999] text-sm text-center transition-all duration-300 opacity-0 translate-y-[-20px] border border-gray-700 pointer-events-none';
             toast.innerHTML = message;
             document.body.appendChild(toast);
             
@@ -911,6 +979,102 @@
                 toast.classList.add('opacity-0', 'translate-y-[-20px]');
                 setTimeout(() => document.body.removeChild(toast), 300);
             }, 3000);
+        }
+
+        // --- Chat Logic ---
+        const chatWidget = document.getElementById('chat-widget');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const apiKey = ""; 
+
+        function toggleChat() {
+            chatWidget.classList.toggle('hidden');
+            chatWidget.classList.toggle('scale-95');
+            chatWidget.classList.toggle('opacity-0');
+            
+            if (!chatWidget.classList.contains('hidden')) {
+                setTimeout(() => userInput.focus(), 100);
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+            const loadingId = addLoading();
+
+            try {
+                // Prepare context from current edited itinerary
+                const currentItineraryText = JSON.stringify(appData.itinerary);
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `You are an expert Italian travel guide. The user is planning a trip. 
+                                Here is their CURRENT ITINERARY JSON: ${currentItineraryText}.
+                                
+                                User question: ${message}
+                                
+                                Respond in Traditional Chinese (Taiwan). Be helpful and refer to their specific itinerary if relevant.`
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById(loadingId).remove();
+
+                if (data.error) {
+                    addMessage('抱歉，AI 目前忙碌中。', 'bot');
+                } else {
+                    const botResponse = data.candidates[0].content.parts[0].text;
+                    addMessage(botResponse, 'bot');
+                }
+            } catch (error) {
+                if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+                addMessage('連線錯誤。', 'bot');
+            }
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `chat-message flex gap-3 ${sender === 'user' ? 'flex-row-reverse' : ''}`;
+            const avatar = sender === 'user' 
+                ? `<div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-gray-500 text-xs"></i></div>`
+                : `<div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0"><i class="fas fa-sparkles text-purple-600 text-xs"></i></div>`;
+            const content = sender === 'user'
+                ? `<div class="bg-purple-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm max-w-[85%]">${text}</div>`
+                : `<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[85%] border border-gray-100 markdown-body">${marked.parse(text)}</div>`;
+            div.innerHTML = avatar + content;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addLoading() {
+            const id = 'loading-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'chat-message flex gap-3';
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0"><i class="fas fa-sparkles text-purple-600 text-xs"></i></div>
+                <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-500 border border-gray-100 flex gap-1 items-center h-10">
+                    <div class="typing-dot w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+                    <div class="typing-dot w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+                    <div class="typing-dot w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+                </div>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
         }
 
         // Initialize App
