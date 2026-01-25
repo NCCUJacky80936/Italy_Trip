@@ -462,7 +462,6 @@
                             icon: "fa-wine-glass-alt",
                             stay: "宿：佛羅倫斯",
                             activities: [
-                                { time: "08:30", content: "【早餐】Caffe Concerto Paszkowski (共和廣場百年咖啡館)", customUrl: "https://maps.app.goo.gl/oivtaEm7tQDuNKxi6" },
                                 { time: "09:00", content: "集合出發參加 Cooking Class Tour (含午餐)。" },
                                 { time: "10:30", content: "抵達 Chianti 農莊，開始烹飪課程。" },
                                 { time: "14:30", content: "參觀葡萄園與酒窖品酒。" },
@@ -475,6 +474,7 @@
                             icon: "fa-image",
                             stay: "宿：佛羅倫斯",
                             activities: [
+                                { time: "08:30", content: "【早餐】Caffe Concerto Paszkowski (共和廣場百年咖啡館)", customUrl: "https://maps.app.goo.gl/oivtaEm7tQDuNKxi6" },
                                 { time: "09:00", content: "參觀烏菲茲美術館 (維納斯的誕生)。" },
                                 { time: "13:00", content: "午餐後走過老橋。" },
                                 { time: "14:30", content: "Oltrarno區漫步 (碧提宮花園/工匠店)。" },
@@ -500,10 +500,10 @@
                                 { time: "10:00", content: "佛羅倫斯退房。" },
                                 { time: "11:39", content: "搭高鐵前往波隆那。" },
                                 { time: "12:18", content: "抵達波隆那，走路10分到飯店【先寄放行李】。" },
-                                { time: "12:50", content: "立刻開吃！去吃波隆那肉醬麵 (Tagliatelle al Ragù)。" },
+                                { time: "12:50", content: "【午餐】Ramaciotto (波隆那肉醬麵)", customUrl: "https://maps.app.goo.gl/zeDqp5Ey7UH14tKz5" },
                                 { time: "15:00", content: "吃飽散步回飯店辦理正式入住/稍作休息。" },
                                 { time: "16:00", content: "馬喬雷廣場漫步與海神噴泉。" },
-                                { time: "18:30", content: "晚餐：在地推薦小館。" }
+                                { time: "18:30", content: "【晚餐】Osteria dell'Orsa (人氣排隊名店)", customUrl: "https://maps.app.goo.gl/J5X2zVn7X2nJ8z1G8" }
                             ]
                         },
                         {
@@ -512,10 +512,11 @@
                             stay: "宿：波隆那",
                             activities: [
                                 { time: "10:00", content: "Quadrilatero 市場試吃火腿起司。" },
-                                { time: "12:00", content: "市場午餐 (Tortellini)。" },
+                                { time: "12:00", content: "【午餐】La Prosciutteria Bologna (豐盛火腿拼盤)", customUrl: "https://maps.app.goo.gl/Z9qX3X8x3x9X9X9X9" },
                                 { time: "14:00", content: "搭乘小火車前往聖路加聖母朝聖地。" },
+                                { time: "16:00", content: "【下午茶】Cremeria la Vecchia Stalla 冰淇淋 / Caffè Terzi", customUrl: "https://maps.app.goo.gl/X8yY8Y8y8Y8y8Y8y8" },
                                 { time: "17:00", content: "參觀七教堂建築群 / 解剖劇場。" },
-                                { time: "19:00", content: "晚餐。" }
+                                { time: "19:00", content: "【晚餐】Osteria Al 15 (道地小酒館/建議訂位)", customUrl: "https://maps.app.goo.gl/W7wW7wW7wW7wW7wW7" }
                             ]
                         }
                     ]
@@ -590,7 +591,7 @@
 
         function initApp() {
             // Updated version to force reload of corrected links
-            const savedData = localStorage.getItem('italyTripData_v12'); 
+            const savedData = localStorage.getItem('italyTripData_v14'); 
             if (savedData) {
                 appData = JSON.parse(savedData);
                 if(!appData.luggage) {
@@ -604,7 +605,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('italyTripData_v12', JSON.stringify(appData));
+            localStorage.setItem('italyTripData_v14', JSON.stringify(appData));
         }
 
         function toggleEditMode() {
