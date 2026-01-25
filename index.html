@@ -32,10 +32,6 @@
             font-weight: 600;
             margin-right: 0.25rem;
         }
-        .tag-food { background-color: #dcfce7; color: #166534; }
-        .tag-spot { background-color: #dbeafe; color: #1e40af; }
-        .tag-dark { background-color: #374151; color: #f3f4f6; }
-        .tag-transport { background-color: #fef9c3; color: #854d0e; }
         
         .time-col {
             font-family: 'Courier New', monospace;
@@ -71,13 +67,26 @@
         }
         /* Map Button Styles */
         .map-btn {
-            opacity: 0.6;
-            transition: opacity 0.2s;
-            color: #ef4444; /* red-500 */
+            opacity: 0.9;
+            transition: all 0.2s;
+            color: #b91c1c; /* red-700 */
             margin-left: 0.5rem;
+            background: #fee2e2;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            border: 1px solid #fecaca;
         }
         .map-btn:hover {
             opacity: 1;
+            background: #fca5a5;
+            color: #7f1d1d;
+            transform: translateY(-1px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
         .transport-map-btn {
             display: inline-flex;
@@ -325,7 +334,6 @@
     <script>
         // --- 1. Initial Data Structure ---
         const defaultData = {
-            // Note: 'checklists' object removed/deprecated in favor of the new 'luggage' structure for the tab
             luggage: [
                 {
                     category: "必備證件與財物",
@@ -378,7 +386,7 @@
                                 { time: "15:03", content: "【老鳥戰術】抵達 S. Lucia 車站，直接將大行李寄放「車站寄物處」(1號月台旁)。" },
                                 { time: "15:30", content: "一身輕便直接開始逛 Cannaregio 區與 Rialto 橋 (把握日光)。" },
                                 { time: "17:30", content: "夕陽時分，享受威尼斯嘉年華氣氛。" },
-                                { time: "19:00", content: "在本島吃晚餐 (選擇較多)。" },
+                                { time: "19:00", content: "【晚餐】Trattoria Storica (海鮮拼盤/溫馨餐館)", customUrl: "https://maps.app.goo.gl/8oQVZ3fki5ra1buo9" },
                                 { time: "21:00", content: "回車站領行李，搭 5.1/5.2 號船前往 Lido 島入住 (晚上搭船看夜景)。" }
                             ]
                         },
@@ -390,10 +398,11 @@
                                 { time: "09:00", content: "從 Lido 搭船前往聖馬可廣場。" },
                                 { time: "09:30", content: "欣賞嘉年華 Coser 裝扮。" },
                                 { time: "10:30", content: "參觀聖馬可大教堂 (含黃金祭壇)。" },
-                                { time: "12:00", content: "享用午餐。" },
+                                { time: "12:00", content: "【午餐】找街邊小吃 (Cichetti) 漫遊覓食" },
                                 { time: "14:00", content: "參觀總督宮與嘆息橋 (古監獄)。" },
                                 { time: "16:30", content: "搭乘 Gondola (貢多拉) 鳳尾船遊河。" },
-                                { time: "18:00", content: "自由活動 / 享用晚餐後搭船回 Lido。" }
+                                { time: "18:00", content: "【晚餐】Trattoria Al Gazzettino (人氣餐館/建議預約)", customUrl: "https://maps.app.goo.gl/Uh1jG7bkcrUtmGAV7" },
+                                { time: "21:00", content: "【夜間活動】威尼斯軍械庫 水舞秀 (Arsenale)", customUrl: "https://maps.app.goo.gl/vAQqqCWxek9bGp2G9" }
                             ]
                         },
                         {
@@ -403,11 +412,11 @@
                             activities: [
                                 { time: "09:00", content: "搭船前往外島 (12號線)。" },
                                 { time: "10:00", content: "抵達 Murano (玻璃島) 參觀。" },
-                                { time: "11:30", content: "抵達 Burano (彩色島) 拍照。" },
-                                { time: "13:00", content: "午餐：Burano 必吃墨魚麵。" },
-                                { time: "15:30", content: "搭船返回威尼斯本島/Lido。" },
-                                { time: "16:30", content: "探訪沉船書店。" },
-                                { time: "19:00", content: "晚餐：嘉年華情人節大餐 (務必預訂)。" }
+                                { time: "12:00", content: "【午餐】Murano 島：La Perla Ai Bisatei (傳統餐廳)", customUrl: "https://maps.app.goo.gl/BSAZ6mw5m2eodRjV8" },
+                                { time: "14:00", content: "【下午茶】Murano 島：Gelateria Murano 冰淇淋", customUrl: "https://maps.app.goo.gl/ssdDBJfXsFGZybHKA" },
+                                { time: "15:00", content: "前往 Burano (彩色島) 拍照。" },
+                                { time: "17:00", content: "探訪沉船書店 (若時間允許)。" },
+                                { time: "19:00", content: "【晚餐】Trattoria da Romano (Burano/留意回程船班)", customUrl: "https://maps.app.goo.gl/4C72SpyjDG1jGmmh6" }
                             ]
                         }
                     ]
@@ -428,10 +437,11 @@
                                 { time: "09:00", content: "Lido 退房，搭船去車站。" },
                                 { time: "11:05", content: "搭乘高鐵前往佛羅倫斯。" },
                                 { time: "13:20", content: "抵達佛羅倫斯 SMN 車站。" },
-                                { time: "13:40", content: "直接前往住宿點【先寄放行李】(不管房間好了沒)。" },
-                                { time: "14:15", content: "一身輕，直奔中央市場 (Mercato Centrale) 吃午餐。" },
-                                { time: "16:00", content: "市區漫步：百花大教堂 ➔ 領主廣場。" },
-                                { time: "19:30", content: "晚餐：挑戰一公斤大牛排 (Bistecca)。" }
+                                { time: "13:40", content: "直接前往住宿點【先寄放行李】。" },
+                                { time: "14:15", content: "【午餐】Mercato Centrale Firenze (中央市場)", customUrl: "https://maps.app.goo.gl/8NR8L8ZNK2wa6DsF8" },
+                                { time: "16:00", content: "【下午茶】Vivoli (知名手工冰淇淋/甜點)", customUrl: "https://maps.app.goo.gl/5uWu3kWUdRTdLfqf8" },
+                                { time: "17:30", content: "市區漫步：百花大教堂 ➔ 領主廣場。" },
+                                { time: "19:30", content: "【晚餐】Trattoria Zà Zà (托斯卡納風格)", customUrl: "https://maps.app.goo.gl/poq93v5AQQeZmYqSA" }
                             ]
                         },
                         {
@@ -439,11 +449,12 @@
                             icon: "fa-user-graduate",
                             stay: "宿：佛羅倫斯",
                             activities: [
-                                { time: "09:00", content: "學院美術館看大衛像 (需預約)。" },
-                                { time: "12:00", content: "中央市場二樓美食街午餐 (牛肚包)。" },
+                                { time: "08:30", content: "【早餐】Caffè Lietta (必吃可頌)", customUrl: "https://maps.app.goo.gl/AjrbNJRBpgRR7GU56" },
+                                { time: "09:30", content: "學院美術館看大衛像 (需預約)。" },
+                                { time: "12:30", content: "【午餐】All’Antico Vinaio (必吃排隊三明治)", customUrl: "https://maps.app.goo.gl/z6Hkvmz74wfkyDGJ6" },
                                 { time: "14:00", content: "聖母百花大教堂登頂 (兄弟) / 洗禮堂 (父母)。" },
-                                { time: "16:30", content: "參觀麥地奇禮拜堂。" },
-                                { time: "18:30", content: "自由活動 / 晚餐。" }
+                                { time: "17:00", content: "參觀麥地奇禮拜堂。" },
+                                { time: "19:30", content: "【晚餐】Buca dell'Orafo (老橋旁傳統地窖餐廳)", customUrl: "https://maps.app.goo.gl/tzaz8vfpBR2cSiNF7" }
                             ]
                         },
                         {
@@ -451,11 +462,12 @@
                             icon: "fa-wine-glass-alt",
                             stay: "宿：佛羅倫斯",
                             activities: [
-                                { time: "09:00", content: "集合出發參加 Cooking Class Tour。" },
+                                { time: "08:30", content: "【早餐】Caffe Concerto Paszkowski (共和廣場百年咖啡館)", customUrl: "https://maps.app.goo.gl/oivtaEm7tQDuNKxi6" },
+                                { time: "09:00", content: "集合出發參加 Cooking Class Tour (含午餐)。" },
                                 { time: "10:30", content: "抵達 Chianti 農莊，開始烹飪課程。" },
-                                { time: "13:00", content: "享用自己做的午餐。" },
                                 { time: "14:30", content: "參觀葡萄園與酒窖品酒。" },
-                                { time: "17:00", content: "返回佛羅倫斯市區。" }
+                                { time: "17:00", content: "返回佛羅倫斯市區。" },
+                                { time: "19:30", content: "【晚餐】Trattoria Dall'oste (丁骨牛排)", customUrl: "https://maps.app.goo.gl/jjiMuG3osLarhPju7" }
                             ]
                         },
                         {
@@ -467,7 +479,7 @@
                                 { time: "13:00", content: "午餐後走過老橋。" },
                                 { time: "14:30", content: "Oltrarno區漫步 (碧提宮花園/工匠店)。" },
                                 { time: "17:00", content: "搭公車上米開朗基羅廣場看夕陽。" },
-                                { time: "19:00", content: "晚餐。" }
+                                { time: "19:30", content: "【晚餐】Don Fefè (河景披薩/可賞阿諾河夜景)", customUrl: "https://maps.app.goo.gl/KgTk6AoFvHXKeKRN6" }
                             ]
                         }
                     ]
@@ -577,11 +589,10 @@
         let isEditing = false;
 
         function initApp() {
-            // Load from local storage or use default
-            const savedData = localStorage.getItem('italyTripData_v2'); // Increment version for new schema
+            // Updated version to force reload of corrected links
+            const savedData = localStorage.getItem('italyTripData_v12'); 
             if (savedData) {
                 appData = JSON.parse(savedData);
-                // Simple migration if 'luggage' is missing from saved data
                 if(!appData.luggage) {
                     appData.luggage = defaultData.luggage;
                 }
@@ -593,7 +604,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('italyTripData_v2', JSON.stringify(appData));
+            localStorage.setItem('italyTripData_v12', JSON.stringify(appData));
         }
 
         function toggleEditMode() {
@@ -618,11 +629,9 @@
 
         // --- 3. View Switcher ---
         function switchTab(tabId) {
-            // Update Tab UI
             document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
 
-            // Toggle Views
             if (tabId === 'itinerary') {
                 document.getElementById('view-itinerary').classList.remove('hidden');
                 document.getElementById('view-luggage').classList.add('hidden');
@@ -675,41 +684,53 @@
             if (arrowRegex.test(route)) {
                 const parts = route.split(arrowRegex);
                 if (parts.length >= 2) {
-                    const origin = encodeURIComponent(parts[0].trim() + ", Italy"); // Append Italy
-                    const dest = encodeURIComponent(parts[1].trim() + ", Italy"); // Append Italy
-                    // 導航連結: origin -> destination
+                    const origin = encodeURIComponent(parts[0].trim() + ", Italy"); 
+                    const dest = encodeURIComponent(parts[1].trim() + ", Italy"); 
                     return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}&travelmode=transit`;
                 }
             }
-            // Fallback to simple search if no clear origin/dest
             return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(route + ", Italy")}`;
         }
 
         // Helper to generate Google Maps Search/Dir Link for Activity
-        function getActivityMapLink(city, content) {
-            // 1. Filter out generic activities that don't have a specific location
-            const genericKeywords = ["自由活動", "午餐", "晚餐", "住宿", "退房", "集合", "返回", "抵達", "辦理", "休息", "寄放", "開吃"];
-            if (genericKeywords.some(keyword => content.includes(keyword))) {
-                return null; // Return null to indicate no link should be generated
+        function getActivityMapLink(blockCity, content) {
+            // 1. Filter out generic keywords that make searches bad
+            // Added: "入住", "退房", "必吃", "推薦", "預定", "查看", "地圖"
+            const genericKeywords = ["自由活動", "午餐", "晚餐", "住宿", "退房", "集合", "返回", "抵達", "辦理", "休息", "寄放", "開吃", "街邊小吃", "入住", "必吃", "推薦"];
+            
+            // If the content is mostly just a generic keyword, don't generate a link unless there's more specific text
+            // e.g. "午餐" -> No link. "午餐：中央市場" -> Link.
+            let isGenericOnly = true;
+            for(let kw of genericKeywords) {
+                if(content.includes(kw) && content.length < kw.length + 5) {
+                    // It's basically just the keyword
+                } else {
+                    isGenericOnly = false;
+                }
             }
+            
+            // 2. City Detection Override
+            // If the activity mentions a different city, use that instead of the block's city
+            let targetCity = blockCity; // Default to block city
+            if(content.includes("米蘭") || content.includes("MXP")) targetCity = "Milan";
+            else if(content.includes("威尼斯") || content.includes("Lido") || content.includes("Murano") || content.includes("Burano")) targetCity = "Venice";
+            else if(content.includes("佛羅倫斯") || content.includes("Firenze")) targetCity = "Florence";
+            else if(content.includes("波隆那")) targetCity = "Bologna";
+            else if(content.includes("Crema")) targetCity = "Crema";
 
-            // 2. Clean up the content to remove common verbs and punctuation for better search
+            // 3. Clean up the content to remove common verbs and punctuation for better search
             let queryTerm = content
-                .replace(/^(參觀|前往|搭乘|探訪|抵達|辦理|享受|挑戰|集合|返回|尋找|逛|早起逛|搭船前往|搭)/g, '') // Remove verbs
-                .replace(/[。，、]/g, ' ') // Remove punctuation
-                .replace(/【.*?】/g, '') // Remove tags in brackets
+                .replace(/^(參觀|前往|搭乘|探訪|抵達|辦理|享受|挑戰|集合|返回|尋找|逛|早起逛|搭船前往|搭|入住|退房|預定|查看|點擊)/g, '') 
+                .replace(/[。，、]/g, ' ') 
+                .replace(/【.*?】/g, '') 
+                .replace(/\(請點擊地圖確認\)/g, '')
+                .replace(/\(.*?\)/g, '') // Remove anything in parens to keep query simple
                 .trim();
             
-            // 3. Extract potential POI name (take first part before parentheses if complex)
-            // E.g. "聖馬可大教堂 (含黃金祭壇)" -> "聖馬可大教堂"
-            const simpleTerm = queryTerm.split('(')[0].trim();
-            if(simpleTerm.length > 1) queryTerm = simpleTerm; // Use simpler term if valid
+            if(queryTerm.length < 2) return null; // Too short to be a place
 
-            // 4. Construct query with City and Country explicitly
-            // "聖馬可大教堂, Venice, Italy" - This forces Google Maps to look in Italy
-            const query = encodeURIComponent(`${queryTerm}, ${city}, Italy`);
+            const query = encodeURIComponent(`${queryTerm}, ${targetCity}, Italy`);
             
-            // Use 'dir' with destination so user can navigate from where they are
             return `https://www.google.com/maps/dir/?api=1&destination=${query}`;
         }
 
@@ -754,8 +775,6 @@
         function renderItinerary() {
             const container = document.getElementById('itinerary-container');
             container.innerHTML = appData.itinerary.map((block, blockIndex) => {
-                // Extract English City Name for map context if available, otherwise use whole string
-                // "VENEZIA • 威尼斯" -> "VENEZIA"
                 const cityName = block.city.split('•')[0]?.trim() || block.city;
 
                 return `
@@ -799,7 +818,14 @@
                             
                             <div class="text-sm text-gray-700 space-y-2 pl-6 border-l-2 border-opacity-30 ${block.borderClass} ml-1">
                                 ${day.activities.map((act, actIndex) => {
-                                    const mapLink = getActivityMapLink(cityName, act.content);
+                                    // CRITICAL FIX: Ensure customUrl is used if present, otherwise try generating one
+                                    let mapLink = null;
+                                    if (act.customUrl && act.customUrl.length > 5) {
+                                        mapLink = act.customUrl;
+                                    } else {
+                                        mapLink = getActivityMapLink(cityName, act.content);
+                                    }
+                                    
                                     return `
                                     <div class="flex items-start group/act">
                                         <div class="time-col mr-2 pt-0.5">
@@ -809,11 +835,12 @@
                                              ${isEditing 
                                                 ? `<div class="flex gap-2 w-full">
                                                     <input type="text" class="editable-input flex-1" value="${act.content}" onchange="updateActivity(${blockIndex}, ${dayIndex}, ${actIndex}, 'content', this.value)">
+                                                    <input type="text" class="editable-input w-1/3 text-xs text-blue-500" placeholder="Map Link" value="${act.customUrl || ''}" onchange="updateActivity(${blockIndex}, ${dayIndex}, ${actIndex}, 'customUrl', this.value)">
                                                     <button onclick="removeActivity(${blockIndex}, ${dayIndex}, ${actIndex})" class="text-red-400 hover:text-red-600"><i class="fas fa-minus-circle"></i></button>
                                                    </div>` 
                                                 : `<div class="flex-1">${convertTags(act.content)}</div>
-                                                   ${mapLink ? `<a href="${mapLink}" target="_blank" class="map-btn no-print" title="導航到此處">
-                                                     <i class="fas fa-map-marker-alt"></i>
+                                                   ${mapLink ? `<a href="${mapLink}" target="_blank" class="map-btn no-print" title="${act.customUrl ? '查看指定地點' : '導航到此處'}">
+                                                     <i class="fas fa-map-marker-alt"></i> ${act.customUrl ? '查看地點' : '導航'}
                                                    </a>` : ''}`
                                                 }
                                         </div>
@@ -899,11 +926,24 @@
         }
         function updateActivity(blockIdx, dayIdx, actIdx, field, value) {
             appData.itinerary[blockIdx].days[dayIdx].activities[actIdx][field] = value;
-            saveData();
+            
+            // If updating time, sort the activities for that day
+            if (field === 'time') {
+                appData.itinerary[blockIdx].days[dayIdx].activities.sort((a, b) => {
+                    // Extract start time for comparison (handles "09:00" vs "09:00-10:00")
+                    const timeA = a.time.split(/[-/]/)[0].trim();
+                    const timeB = b.time.split(/[-/]/)[0].trim();
+                    return timeA.localeCompare(timeB);
+                });
+                saveData();
+                renderItinerary(); // Re-render to reflect new order
+            } else {
+                saveData();
+            }
         }
         
         function addActivity(blockIdx, dayIdx) {
-            appData.itinerary[blockIdx].days[dayIdx].activities.push({ time: "00:00", content: "新活動" });
+            appData.itinerary[blockIdx].days[dayIdx].activities.push({ time: "00:00", content: "新活動", customUrl: "" });
             saveData();
             renderItinerary();
         }
