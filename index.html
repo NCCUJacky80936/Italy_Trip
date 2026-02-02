@@ -120,6 +120,11 @@
             color: #2563eb;
             font-weight: 700;
         }
+        .nav-tab.active-danger {
+            border-bottom-color: #ef4444;
+            color: #ef4444;
+            font-weight: 700;
+        }
         .nav-tab:hover:not(.active) {
             color: #374151;
             background-color: #f9fafb;
@@ -177,7 +182,7 @@
             
             /* Print Layout Tweaks */
             .nav-tabs-container { display: none !important; } /* Hide tabs in print, just show content */
-            #view-itinerary, #view-luggage { display: block !important; } /* Force show all content when printing */
+            #view-itinerary, #view-luggage, #view-safety { display: block !important; } /* Force show all content when printing */
             .tab-header-print { display: block !important; margin-top: 2rem; border-bottom: 2px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;}
         }
         
@@ -188,6 +193,19 @@
         }
         
         .tab-header-print { display: none; }
+        
+        .sop-step {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        .sop-step:before {
+            content: "➜";
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="antialiased relative">
@@ -261,12 +279,15 @@
 
         <!-- Tab Navigation (Screen Only) -->
         <div class="bg-white border-b border-gray-200 nav-tabs-container no-print sticky top-0 z-40 shadow-sm">
-            <div class="flex justify-center">
+            <div class="flex justify-center flex-wrap">
                 <div class="nav-tab active" onclick="switchTab('itinerary')" id="tab-itinerary">
                     <i class="fas fa-map-marked-alt mr-2"></i> 行程與交通
                 </div>
                 <div class="nav-tab" onclick="switchTab('luggage')" id="tab-luggage">
                     <i class="fas fa-suitcase-rolling mr-2"></i> 行李檢查清單
+                </div>
+                <div class="nav-tab text-red-600 hover:text-red-700" onclick="switchTab('safety')" id="tab-safety">
+                    <i class="fas fa-shield-alt mr-2"></i> 防盜與緊急應變
                 </div>
             </div>
         </div>
@@ -319,6 +340,97 @@
                     <button onclick="addLuggageCategory()" class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-2 px-4 rounded border border-blue-300 inline-flex items-center gap-2">
                         <i class="fas fa-folder-plus"></i> 新增分類
                     </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- View: Safety & Emergency SOP -->
+        <div id="view-safety" class="flex-1 hidden">
+            <div class="p-8 md:p-12 bg-red-50 min-h-[500px]">
+                <h2 class="text-2xl font-bold text-red-700 mb-6 border-l-4 border-red-600 pl-3 tab-header-print">🛡️ 義大利防盜心法與緊急處置 SOP</h2>
+                
+                <!-- 1. Prevention -->
+                <div class="bg-white p-6 rounded-xl shadow-sm mb-8 border border-red-100">
+                    <h3 class="font-bold text-xl mb-4 text-gray-800"><i class="fas fa-user-secret text-gray-600 mr-2"></i>黃金防盜原則：不要當肥羊</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                            <li><strong>手機不放餐桌上：</strong>吃飯時絕對不要把手機放在桌面上，這是最常見的被偷方式（假裝賣花/填問卷蓋住手機，一秒拿走）。</li>
+                            <li><strong>搭車與排隊是熱區：</strong>米蘭中央車站上下火車時、擠公車/地鐵時，背包請「背在前面」。</li>
+                            <li><strong>防範套路：</strong>有人硬塞幸運繩、鴿子飼料、或突然掉零錢在地上，請立刻無視並遠離，這通常是聲東擊西。</li>
+                        </ul>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                            <li><strong>分散風險：</strong>護照正本若當天不需退稅，鎖在飯店保險箱，身上帶影本。現金分開放（大鈔放貼身腰包）。</li>
+                            <li><strong>別穿得太像觀光客：</strong>名牌購物袋不要直接提在手上逛街，最好自備樸素購物袋裝著。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. Emergency SOPs -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Phone Stolen -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-blue-500">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-mobile-alt text-4xl text-blue-500"></i>
+                            <h3 class="font-bold text-lg mt-2">📱 手機被偷 SOP</h3>
+                        </div>
+                        <div class="text-sm space-y-3">
+                            <div class="sop-step"><strong>立刻鎖定：</strong>借家人手機開啟「尋找 (Find My)」或「Google Find My Device」，將手機設為遺失模式/清除資料。</div>
+                            <div class="sop-step"><strong>停用支付：</strong>若有綁定 Apple Pay / Google Pay，致電發卡銀行暫停信用卡。</div>
+                            <div class="sop-step"><strong>聯絡電信：</strong>聯繫台灣電信商掛失 SIM 卡，避免被盜打漫遊。</div>
+                            <div class="sop-step"><strong>報案 (重要)：</strong>去警局報案取得「報案單 (Denuncia)」，需提供手機 IMEI 碼（盒子上或按*#06#查詢），回台申請保險理賠用。</div>
+                        </div>
+                    </div>
+
+                    <!-- Wallet Stolen -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-yellow-500">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-wallet text-4xl text-yellow-500"></i>
+                            <h3 class="font-bold text-lg mt-2">💸 錢包被偷 SOP</h3>
+                        </div>
+                        <div class="text-sm space-y-3">
+                            <div class="sop-step"><strong>立刻停卡：</strong>這是第一優先！打開網銀 App 鎖卡，或打跨國客服電話掛失。</div>
+                            <div class="sop-step"><strong>現金應變：</strong>啟用備用現金（分開存放的），或請台灣家人西聯匯款 (Western Union)。</div>
+                            <div class="sop-step"><strong>報案：</strong>去最近的警察局 (Polizia 或 Carabinieri) 報案。清楚列出遺失物品清單。</div>
+                            <div class="bg-yellow-50 p-2 rounded text-xs text-yellow-800 mt-2">
+                                *建議出發前查詢信用卡掛失的海外付費電話，存在手機記事本或雲端。
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Passport Stolen -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-red-600">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-passport text-4xl text-red-600"></i>
+                            <h3 class="font-bold text-lg mt-2">📕 護照被偷 SOP</h3>
+                        </div>
+                        <div class="text-sm space-y-3">
+                            <div class="sop-step"><strong>警局報案：</strong>一定要拿到報案單 (Denuncia)，這是補辦證件的必要文件。</div>
+                            <div class="sop-step"><strong>拍大頭照：</strong>找車站附近的快照機 (Fotoautomatica) 拍證件照。</div>
+                            <div class="sop-step"><strong>前往辦事處：</strong>攜帶報案單、照片、身分證影本（若有），前往台灣駐義大利辦事處。</div>
+                            <div class="sop-step"><strong>補辦：</strong>申請「入國證明書」供搭機返台使用（無法繼續去其他國家旅遊）。</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Contacts -->
+                <div class="mt-8 bg-gray-800 text-white p-6 rounded-xl">
+                    <h3 class="font-bold text-lg mb-4 text-yellow-400"><i class="fas fa-address-card mr-2"></i>緊急聯絡卡 (建議截圖保存)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-sm text-gray-400 mb-1">義大利緊急電話</p>
+                            <p class="font-bold text-xl">憲兵 (Carabinieri): 112</p>
+                            <p class="font-bold text-xl">警察 (Polizia): 113</p>
+                            <p class="font-bold text-xl">救護車: 118</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400 mb-1">駐米蘭台北辦事處 (北義)</p>
+                            <p class="text-sm">Ufficio di Rappresentanza di Taipei in Italia - Ufficio di Milano</p>
+                            <p class="text-sm mt-1"><i class="fas fa-map-marker-alt"></i> Via Fabio Filzi, 25/A/12 Piano, 20124 Milano</p>
+                            <p class="font-bold text-yellow-300 mt-2"><i class="fas fa-phone"></i> 急難救助: +39-334-365-3388</p>
+                            <p class="text-xs text-gray-400 mt-1">(專供護照遺失、被捕等緊急狀況使用，一般業務請勿撥打)</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -598,8 +710,8 @@
         let isEditing = false;
 
         function initApp() {
-            // Version key updated to v17 to force new data load
-            const savedData = localStorage.getItem('italyTripData_v17'); 
+            // Version key updated to v18 to force new data load
+            const savedData = localStorage.getItem('italyTripData_v18'); 
             if (savedData) {
                 appData = JSON.parse(savedData);
                 if(!appData.luggage) {
@@ -613,7 +725,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('italyTripData_v17', JSON.stringify(appData));
+            localStorage.setItem('italyTripData_v18', JSON.stringify(appData));
         }
 
         function toggleEditMode() {
@@ -638,16 +750,23 @@
 
         // --- 3. View Switcher ---
         function switchTab(tabId) {
-            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-
-            if (tabId === 'itinerary') {
-                document.getElementById('view-itinerary').classList.remove('hidden');
-                document.getElementById('view-luggage').classList.add('hidden');
+            document.querySelectorAll('.nav-tab').forEach(el => {
+                el.classList.remove('active');
+                el.classList.remove('active-danger');
+            });
+            
+            const clickedTab = document.getElementById('tab-' + tabId);
+            if(tabId === 'safety') {
+                clickedTab.classList.add('active-danger');
             } else {
-                document.getElementById('view-itinerary').classList.add('hidden');
-                document.getElementById('view-luggage').classList.remove('hidden');
+                clickedTab.classList.add('active');
             }
+
+            document.getElementById('view-itinerary').classList.add('hidden');
+            document.getElementById('view-luggage').classList.add('hidden');
+            document.getElementById('view-safety').classList.add('hidden');
+
+            document.getElementById('view-' + tabId).classList.remove('hidden');
         }
 
         // --- 4. Rendering Logic ---
